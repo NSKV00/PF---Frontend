@@ -1,0 +1,14 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+}
+
+:root {
+  --creme-suave: #f5f3ef;
+  --marrom-claro: #d9bba0;
+  --verde-salvia: #a3b18a;
+  --bege-escuro: #7f675b;
+  --branco-puro: #ffffff;
+}
