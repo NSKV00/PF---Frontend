@@ -1,0 +1,103 @@
+.header {
+  background-color: var(--marrom-claro);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: var(--branco-puro);
+  text-decoration: none;
+  min-width: max-content;
+}
+
+.MenuLateral {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: max-content;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.MenuLateral div {
+  height: 3px;
+  background-color: var(--branco-puro);
+  border-radius: 3px;
+}
+.MenuLateral:hover {
+    transform: scale(1.2);
+    display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
+}
+
+.loginBtn {
+  background-color: var(--verde-salvia);
+  color: var(--branco-puro);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.loginBtn:hover {
+  background-color: #8fa377;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  z-index: 9;
+}
+
+.Menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100vh;
+  width: 250px;
+  background-color: var(--branco-puro);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  transition: left 0.3s ease;
+  z-index: 11;
+}
+
+.open {
+  left: 0 !important;
+}
+
+.Menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--bege-escuro);
+  font-size: 1.1rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.Menu a:hover {
+  background-color: var(--creme-suave);
+}

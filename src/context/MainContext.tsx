@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import type { returnUser } from '../schemas/usuarios.schemas';
+import type { returnUser } from '../schemas/usuario.schema';
 
 interface iContext {
     user: returnUser,
