@@ -2,4 +2,8 @@
     display: flex;
     justify-content: center;
     margin-top: 40px;
-}
+    background-color: var(--marrom-claro);
+    align-items: center;
+    padding: 2rem 2rem;
+    z-index: 10;
+    }

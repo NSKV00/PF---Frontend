@@ -1,0 +1,33 @@
+.main {
+    width: 100%;
+    max-width: 900px;
+    min-height: 86vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.form {
+    width: 90%;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 6px var(--color-gray-600);
+    padding: 24px;
+    max-width: 428px;
+    display: flex;
+    gap: 32px;
+    flex-direction: column;
+}
+.form fieldset {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    gap: 8px;
+}
+.error {
+    color: #9c1d1d;
+    font-size: 12px;
+    font-weight: 600;
+    height: 16px;
+}
