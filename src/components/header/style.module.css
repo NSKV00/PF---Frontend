@@ -1,47 +1,41 @@
+main{
+  height: 100vh;
+  background-color: rgb(24, 24, 24);
+}
 .header {
-  background-color: #0f0f0fa5;
+  background-color: #d9bba0ee;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 2rem 2rem;
+  padding: 2.5rem 2rem;
   position: fixed;
-  z-index: 10;
   top: 0;
   left: 0;
   width: 100%;
 }
 
-.logo {
-  font-size: 2.8rem;
-  font-weight: bold;
-  color: var(--branco-puro);
-  text-decoration: none;
-  min-width: max-content;
+.Logo {
+  padding-left: 2rem;
+  position: absolute;
+  top: 0.1rem;
+  left: 2rem;
+  height: 140%;
 }
 
 .MenuLateral {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-width: max-content;
-  width: 25px;
-  height: 20px;
+
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .MenuLateral div {
   height: 3px;
-  background-color: var(--branco-puro);
+  background-color: var(--creme-suave);
   border-radius: 3px;
 }
 .MenuLateral:hover {
-    transform: scale(1.2);
-    display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 25px;
-  height: 20px;
+    transform: scale(1.05);
+   
 }
 
 .loginBtn {

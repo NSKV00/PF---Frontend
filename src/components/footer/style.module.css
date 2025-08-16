@@ -1,9 +1,11 @@
 .footer {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
     background-color: var(--marrom-claro);
     align-items: center;
     padding: 2rem 2rem;
-    z-index: 10;
-    }
+    gap: 2.5rem;
+}
+img {
+    height: 60px;
+}

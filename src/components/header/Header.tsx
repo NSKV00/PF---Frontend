@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { createIcons, icons } from "lucide"
 import style from "./style.module.css"
 import "../../index.css"
+import Logo from "../../assets/Logo.png"
 
 export const Header:React.FC=()=>{
     const MenuLateral = ()=>{
@@ -22,7 +23,7 @@ export const Header:React.FC=()=>{
     return <>
         <header className={style.header}>
 
-            <h1 className={style.logo}></h1>
+            <img className={style.Logo} src={Logo} alt="logo" />
 
             <div id="overlay" className={style.overlay} onClick={MenuLateral}></div>
 
@@ -33,9 +34,7 @@ export const Header:React.FC=()=>{
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>
-                <div></div>
-                <div></div>
-                <div></div>
+                <span data-lucide="menu"></span>
             </div>
             
         </header>
