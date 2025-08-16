@@ -28,9 +28,9 @@ export const Header:React.FC=()=>{
             <div id="overlay" className={style.overlay} onClick={MenuLateral}></div>
 
             <div id="Menu" className={style.Menu}>
-                <Link to="/vendas" ><span data-lucide="shopping-bag"></span>Vendas</Link>
-                <Link to="/despesa" ><span data-lucide="wallet"></span>Despesas</Link>
-                <Link to="/relatorio"><span data-lucide="bar-chart"></span>Relatórios</Link>
+                <Link to="/agendamento" ><span data-lucide="notebook-tabs"></span>Agendamento</Link>
+                <Link to="/servicos" ><span data-lucide="square-scissors"></span>Serviços</Link>
+                <Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>

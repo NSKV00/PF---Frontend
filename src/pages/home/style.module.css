@@ -1,0 +1,27 @@
+.main{
+    display: flex;
+    padding: 32px;
+    padding-left: 32px;
+    padding-right:32px ;
+}
+.Home{
+    display: flex;
+    flex-direction:column ;
+    background-color: #525151;
+    padding: 42px;
+
+}
+.Historia{
+    display: flex;
+    padding: 32px;
+    color: #ffff;
+    font-size: 1.8rem;
+    padding-left: 12px;
+}
+.texto{
+    display: flex;
+    font-size: 1.2rem;
+    color: #ffff;
+    padding-left: 24px;
+    text-align: justify;
+}

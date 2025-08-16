@@ -1,0 +1,26 @@
+.servicos{
+    display: flex;
+    padding: 32px;
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+.tudo{
+    display: flex;
+    width: 100%;
+    gap: 12px;
+    padding: 32px;
+    
+}
+.tudo p {
+    width: 50%;
+    background: #d9bba0;
+    padding: 8px;
+    text-align: center;
+    color: #fafafa;
+}
+.tudo .pacote{
+    width: 49.45%;
+    background: #d9bba0;
+    padding: 8px;
+    text-align: center;
+}
