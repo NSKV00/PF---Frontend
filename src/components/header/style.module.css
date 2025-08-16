@@ -7,7 +7,7 @@ main{
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 2.5rem 2rem;
+  padding: 2.2rem 2rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -18,24 +18,21 @@ main{
   padding-left: 2rem;
   position: absolute;
   top: 0.1rem;
-  left: 2rem;
+  left: 0.5rem;
   height: 140%;
 }
 
 .MenuLateral {
-
+  color: var(--creme-suave);
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
-.MenuLateral div {
-  height: 3px;
-  background-color: var(--creme-suave);
-  border-radius: 3px;
-}
 .MenuLateral:hover {
-    transform: scale(1.05);
-   
+  transform: scale(1.05);
+}
+.MenuLateral svg {
+  height: 2rem;
+  width: 2rem;
 }
 
 .loginBtn {

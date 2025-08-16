@@ -10,9 +10,9 @@ export function MainRoutes(){
     
     return <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path="agendamento" element={<Agendamento/>} />
-        <Route path="servicos" element={<Servicos/>} />
-        <Route path="clientes" element={<Clientes/>} />
+        <Route path="/agendamento" element={<Agendamento/>} />
+        <Route path="/servicos" element={<Servicos/>} />
+        <Route path="/clientes" element={<Clientes/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/Cadastro" element={<Cadastro/>} />
     </Routes>

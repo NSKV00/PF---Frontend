@@ -34,7 +34,7 @@ export const Header:React.FC=()=>{
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>
-                <span data-lucide="menu"></span>
+                <span className={style.menu} data-lucide="menu"></span>
             </div>
             
         </header>

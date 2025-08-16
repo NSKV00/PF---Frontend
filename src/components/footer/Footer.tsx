@@ -5,7 +5,13 @@ export const Footer=()=>{
     return <>
         <footer className={style.footer}>
             <img src={Logo} alt="logo" />
-            <a className={style.a}> © 2025 Gravus Barbearia - Todos os direitos reservados </a>
+            <div>
+                <p className={style.p}> © 2025 Gravus Barbearia   |   Todos os direitos reservados </p>
+                <div className={style.Contatodiv}>
+                    <p className={style.contato}>CONTATO:</p>
+                    <p className={style.email}>gravusbarber@hotmail.com.br</p>
+                </div>
+            </div>
         </footer>
     
     </>
