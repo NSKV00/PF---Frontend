@@ -1,4 +1,75 @@
 .main {
+    background-color: var(--creme-suave);
+    background-image: url('https://www.transparenttextures.com/patterns/cream-pixels.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login {
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(1px);
+    background-color: rgba(255, 255, 255, 0.062);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.178);
+    width: 100%;
+    max-width: 450px;
+}
+.login h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--bege-escuro);
+}
+.login .form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border: none;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: var(--border-radius);    
+}
+.login fieldset {
+    border: none;
+    gap: 12px;
+}
+.login label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--bege-escuro);
+    font-weight: 500;
+}
+.login input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.2rem;
+    border: 1.5px solid var(--verde-salvia);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--creme-suave);
+    color: var(--bege-escuro);
+}
+.login button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--marrom-claro);
+    color: var(--branco-puro);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.login button:hover {
+    background-color: #c6a586;
+}
+
+
+/* .main {
     width: 100%;
     max-width: 900px;
     min-height: 86vh;
@@ -30,4 +101,4 @@
     font-size: 12px;
     font-weight: 600;
     height: 16px;
-}
+} */
