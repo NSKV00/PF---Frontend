@@ -5,6 +5,7 @@ import { useAuth } from "../../hooks/useAuth"
 import style from "./style.module.css"
 import Logo from "../../assets/Logo.png"
 
+
 export const Login = () => {
   const navigate = useNavigate()
   const { login } = useAuth()
@@ -43,6 +44,7 @@ export const Login = () => {
 
   return (
     <main className={style.main}>
+
       <form className={style.form} onSubmit={handleSubmit}>
         <span className={style.logo}>
           <img className={style.Logo} src={Logo} alt="logo" />
@@ -50,27 +52,16 @@ export const Login = () => {
         <span className={style.title}>Fazer Login</span>
 
         <fieldset>
-          <label htmlFor="email">E-mail</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Digite seu e-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            <label htmlFor="email">E-mail</label>
+            <input id="email" type="email" placeholder="Digite seu e-mail" value={email}
+            onChange={(e) => setEmail(e.target.value)} required
           />
         </fieldset>
 
         <fieldset>
-          <label htmlFor="password">Senha</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Digite sua senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            minLength={6}
-            required
+            <label htmlFor="password">Senha</label>
+            <input id="password" type="password" placeholder="Digite sua senha" value={password}
+            onChange={(e) => setPassword(e.target.value)} required
           />
         </fieldset>
 
