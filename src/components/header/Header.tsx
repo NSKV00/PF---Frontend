@@ -23,7 +23,10 @@ export const Header:React.FC=()=>{
     return <>
         <header className={style.header}>
 
-            <img className={style.Logo} src={Logo} alt="logo" />
+            <Link to="/">
+                 <img className={style.Logo} src={Logo} alt="logo" />
+            </Link>
+            {/* <img className={style.Logo} src={Logo} alt="logo" /> */}
 
             <div id="overlay" className={style.overlay} onClick={MenuLateral}></div>
 
