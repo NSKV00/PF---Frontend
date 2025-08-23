@@ -1,70 +1,87 @@
-import { useContext } from "react"
-import { useForm } from "react-hook-form"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { MainContext } from "../../context/MainContext"
-import { loginSchemas, type loginUser } from "../../schemas/login.schemas"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { apiController } from "../../controller/api.controller"
 import { toast } from "react-toastify"
+import { useAuth } from "../../hooks/useAuth"
 import style from "./style.module.css"
 import Logo from "../../assets/Logo.png"
 
-export const Login=()=>{
-    const navigate = useNavigate()
-    const {setUser} = useContext(MainContext)
+export const Login = () => {
+  const navigate = useNavigate()
+  const { login } = useAuth()
 
-    //ERRO, NÃO CONSEGUI ARRUMAR
-    // const {resgister,
-    //     handleSubmit,
-    //     formState{errors}
-    // } = useForm<loginUser>({
-    //     mode:"onBlur",
-    //     resolver: zodResolver(loginSchemas)
-    // })
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-    const FLogin = async (LoginData:loginUser) => {
-        try {
-            const res = await apiController.post("/login", LoginData)
-
-            if (res.data.token){
-                toast.success("Login efetuado com sucesso")
-                localStorage.setItem("token", res.data.token)
-                setUser(res.data)
-                setTimeout(()=>{
-                    navigate("/")
-                }, 2000)
-            }
-        } catch (error: any) {
-            toast.error(error.response.data.message)
-        }
+  const validateForm = (): boolean => {
+    if (!email || !password) {
+      toast.error("Preencha todos os campos obrigatórios.")
+      return false
     }
-    //if (verificar return da função pegar token/decodificar )
-    
-    return <>
-        <main className={style.main}>
-            <form className={style.form} /*onSubmit={FLogin}*/>
-                <span className={style.title}>Criar Conta</span>
-                <span className={style.logo}>
-                    <img className={style.Logo} src={Logo} alt="logo" />
-                </span>
+    if (password.length < 6) {
+      toast.error("A senha deve ter pelo menos 6 caracteres.")
+      return false
+    }
+    return true
+  }
 
-                <fieldset>
-                    <label htmlFor="email">E-mail</label>
-                    <input  id="email" type="text" placeholder="Digite seu e-mail"
-                    />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="password">Senha</label>
-                    <input id="password" type="password" placeholder="Digite sua senha"
-                    />
-                </fieldset>
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!validateForm()) return
 
-                <button type="submit">Cadastrar-se</button>
-                <div>
-                    <span className={style.span}></span>
-                    <Link className={style.login} to={"/login"}>Fazer login</Link>
-                </div>
-            </form>
-        </main>
-    </>
+    try {
+      await login(email, password)
+      toast.success("Login realizado com sucesso!")
+      setTimeout(() => navigate("/"), 1500)
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message)
+      } else {
+        toast.error("Erro ao realizar login")
+      }
+    }
+  }
+
+  return (
+    <main className={style.main}>
+      <form className={style.form} onSubmit={handleSubmit}>
+        <span className={style.logo}>
+          <img className={style.Logo} src={Logo} alt="logo" />
+        </span>
+        <span className={style.title}>Fazer Login</span>
+
+        <fieldset>
+          <label htmlFor="email">E-mail</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Digite seu e-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </fieldset>
+
+        <fieldset>
+          <label htmlFor="password">Senha</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Digite sua senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={6}
+            required
+          />
+        </fieldset>
+
+        <button type="submit">Entrar</button>
+        <div>
+          <span className={style.span}>Não tem uma conta?</span>
+          <Link className={style.login} to={"/cadastro"}>
+            Criar conta
+          </Link>
+        </div>
+      </form>
+    </main>
+  )
 }

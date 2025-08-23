@@ -14,6 +14,6 @@ export function MainRoutes(){
         <Route path="/servicos" element={<Servicos/>} />
         <Route path="/clientes" element={<Clientes/>} />
         <Route path="/login" element={<Login/>} />
-        <Route path="/Cadastro" element={<Cadastro/>} />
+        <Route path="/cadastro" element={<Cadastro/>} />
     </Routes>
 }
