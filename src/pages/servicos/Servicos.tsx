@@ -15,36 +15,47 @@ export const Servicos = ()=>{
     <main >
         <div className={style.servicos}>
         <div className={style.tudo}>
+            <div style={{backgroundImage:"url(/OIP.webp)"}}className={style.pacote}>
             <p>
                 Corte de cabelo
-
             </p>
-            
+            </div> 
+            <div style={{backgroundImage:"url(/OIP.webp)"}}className={style.pacote}>
             <p>
                 Barba
             </p>
+            </div>
         </div>
        
         <div className={style.tudo}>
+            <div style={{backgroundImage:"url(/OIP.webp)"}}className={style.pacote}>
             <p>
                 Lavagem de cabelo
             </p>
+            </div>
+            <div style={{backgroundImage:"url(/OIP.webp)"}}className={style.pacote}>
             <p>
                 Skincare cabelo
             </p>
+            </div>
         </div>
       
         <div className={style.tudo}>
-            <p>
-                Sobrancelha
-            </p>
-            <p>
-                Pacote cabelo + barba
-            </p>
+            <div style={{backgroundImage:"url(/OIP.webp)"}} className={style.pacote}>
+                <p>
+                    Sobrancelha
+                </p>
+            </div>
+
+            <div style={{backgroundImage:"url(/OIP.webp)"}}className={style.pacote}>
+                <p >
+                    Pacote cabelo + barba
+                </p>
+            </div>
         </div>
        
         <div className={style.tudo}>
-            <p className={style.pacote}>
+            <p style={{backgroundImage:"url(/OIP.webp)"}}className={style.pacotePlus}>
                 Pacote PLUS
             </p>
         </div>

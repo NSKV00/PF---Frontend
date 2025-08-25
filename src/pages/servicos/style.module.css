@@ -3,24 +3,31 @@
     padding: 32px;
     max-width: 100%;
     flex-wrap: wrap;
+    gap: 12px;
 }
 .tudo{
     display: flex;
     width: 100%;
-    gap: 12px;
+    gap: 128px;
     padding: 32px;
-    
+    height: 200px;
 }
 .tudo p {
-    width: 50%;
-    background: #d9bba0;
-    padding: 8px;
+    display: flex;
+    padding: 60px;
     text-align: center;
     color: #fafafa;
+    align-items: flex-end;
+    justify-content: center;
 }
-.tudo .pacote{
+.tudo.pacote{
+    width: 50%;
+    padding: 32px;
+    text-align: center;
+
+}
+.tudo .pacotePlus{
     width: 49.45%;
-    background: #d9bba0;
     padding: 8px;
     text-align: center;
 }
