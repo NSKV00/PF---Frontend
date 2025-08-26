@@ -3,12 +3,13 @@ main{
   background-color: rgb(24, 24, 24);
 }
 .header {
+  z-index: 999;
   background-color: #d9bba0ee;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 2.2rem 2rem;
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
