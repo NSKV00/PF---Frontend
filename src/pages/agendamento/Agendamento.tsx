@@ -17,6 +17,9 @@
       const [mes, setMes] = useState<number>(new Date().getMonth());
       const [ano, setAno] = useState<number>(new Date().getFullYear());
       const [diaSemana, setDiaSemana] = useState<string>("");
+      const [selectedTime, setSelectedTime] = useState<string>("");
+      const [meuValor, setMeuValor] = useState<string>("");
+      const [idSelecionado, setIdSelecionado] = useState<number | null>(null);
 
   const salvarData = (data: Date) => {
     setMes(data.getMonth());
@@ -24,7 +27,7 @@
   };
 
   const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-  const diasSemana = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sabado"];
+  const diasSemana = [7,1,2,3,4,5,6];
 
       const validateUser = async(token:string)=>{
           try {
@@ -44,6 +47,17 @@
           }
       }
 
+      const generateTimes = (): string[] => {
+    const times: string[] = [];
+    for (let h = 10; h <= 18; h++) {
+      times.push(`${h.toString().padStart(2, "0")}:00`);
+      times.push(`${h.toString().padStart(2, "0")}:30`);
+    }
+    return times.filter((t) => t <= "18:00");
+  };
+
+  const times = generateTimes();
+
       const pegarTodosFuncionarios = async (nome?: string,limite?:number,offset?:number) => {
           const { data } = await apiController.get("funcionario", {
               params: { 
@@ -55,7 +69,8 @@
           setFuncionario(data.sort((a: { id: number }, b: { id: number }) => a.id - b.id));
       };
 
-      const abrirModal = () => {
+      const abrirModal = (id: number) => {
+        setIdSelecionado(id);
       setIsModalOpen(prev => !prev);
       };
 
@@ -68,15 +83,20 @@
               pegarTodosFuncionarios()
           }
 
-            if (isModalOpen) {
-    document.body.style.overflow = "hidden"
-  } else {
-    document.body.style.overflow = ""
-  }
+           const valor = localStorage.getItem("user"); 
+    if (valor) {
+      setMeuValor(JSON.parse(valor)); 
+    }
 
-  return () => {
-    document.body.style.overflow = ""
-  }
+            if (isModalOpen) {
+              document.body.style.overflow = "hidden"
+            } else {
+              document.body.style.overflow = ""
+            }
+
+            return () => {
+              document.body.style.overflow = ""
+            }
 
 
       },[isModalOpen]) 
@@ -95,7 +115,7 @@
           <div className={style.divImgBack}>
             <p className={style.para}>Muito além de um simples corte, nossa missão é transformar cada fio em uma expressão única de identidade e personalidade.</p>
             <button  className={style.button} onClick={() => {
-              abrirModal()
+              abrirModal(item.id)
             }}>Agendar</button>
           </div>
         </div>
@@ -109,6 +129,9 @@
   {isModalOpen && (
     <div className={style.modalOverlay} onClick={() => setIsModalOpen(false)}>
       <div className={style.modalContent} onClick={(e) => e.stopPropagation()}>
+
+
+
 <Calendario
   date={selectedDate}
   onSelect={(newDate) => {
@@ -117,14 +140,20 @@
     setDate(newDate.getDate());
     setDiaSemana(diasSemana[newDate.getDay()]);
     console.log(
-        newDate.getDate(),
-        diasSemana[newDate.getDay()],
-        meses[newDate.getMonth()],
-        newDate.getFullYear()
+    idSelecionado,
+    meuValor.id,
+    newDate.getDate(),
+    diasSemana[newDate.getDay()],
+    meses[newDate.getMonth()],
+    newDate.getFullYear()
     );
-  }}
-  salvarData={salvarData}
-/>
+  }} salvarData={salvarData}/>
+
+      <select className={style.hora} value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
+      <option value="">Selecionar hora</option>
+      {times.map((time) => (<option key={time} value={time}> {time}
+      </option>))}
+      </select>
       </div>
     </div>
   )}

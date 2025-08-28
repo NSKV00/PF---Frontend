@@ -16,7 +16,19 @@ export const Calendario = ({ date, onSelect, salvarData }: CalendarioProps) => {
         selected={date}
         onSelect={onSelect}
         onMonthChange={salvarData}
-        className="rounded-lg border"
+    className="
+      rounded-lg border 
+      text-sm sm:text-base md:text-lg
+      p-2 sm:p-4 md:p-6
+      scale-95 sm:scale-100 md:scale-110
+      [&_.rdp-cell:first-child]:pl-1 
+      [&_.rdp-cell:last-child]:pr-1
+      sm:[&_.rdp-cell:first-child]:pl-3 
+      sm:[&_.rdp-cell:last-child]:pr-3
+      [&_.rdp-cell]:p-1 sm:[&_.rdp-cell]:p-2 md:[&_.rdp-cell]:p-3
+      [&_.rdp-cell]:rounded-full
+    "
+
         disabled={{ before: today }}
         fixedWeeks
       />
