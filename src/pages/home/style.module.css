@@ -1,27 +1,161 @@
-.main{
-    display: flex;
-    padding: 32px;
-    padding-left: 32px;
-    padding-right:32px ;
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
-.Home{
-    display: flex;
-    flex-direction:column ;
-    background-color: #525151;
-    padding: 42px;
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  padding: 6rem 2rem;
+  animation: fadeIn 1.5s ease-in;
+}
+.heroButtons {
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  gap: 15rem;
+}
+/* Botões principais */
+.btnRed {
+  position: relative;
+  top: 12rem;
+  background: #c92f3c61;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.btnBlue {
+  position: relative;
+  top: 12rem;
+  background: #2a4c8c61;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+/* ---------- Section Genérica ---------- */
+.sobre {
+  height: 60vh;
+  align-items: center;
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+  animation: fadeUp 1s ease-in;
+}
+.sobre h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  text-align: center;
+  color: #111111;
+}
+.sobre h2::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: #2a4d8c;
+  display: block;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+/* ---------- Sobre ---------- */
+.features {
+  margin-top: 1rem;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+/* ---------- Depoimentos ---------- */
+.depoimentos h2::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: #2a4d8c;
+  display: block;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+.depoimentos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.depoimentos blockquote {
+  align-items: center;
+  font-style: italic;
+  margin: 1rem auto;
+  background: #e5dcc5;
+  padding: 1.5rem;
+  border-left: 5px solid #2a4d8c;
+  max-width: 700px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
+/* ---------- Galeria ---------- */
+.galeria h2::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: #2a4d8c;
+  display: block;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
 }
-.Historia{
-    display: flex;
-    padding: 32px;
-    color: #ffff;
-    font-size: 1.8rem;
-    padding-left: 12px;
+.galeria {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.texto{
-    display: flex;
-    font-size: 1.2rem;
-    color: #ffff;
-    padding-left: 24px;
-    text-align: justify;
+.galeriaGrid {
+  display: grid;
+  flex-direction: row;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 1rem;
+}
+.galeriaGrid img {
+  width: 100%;
+  border-radius: 10px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.galeriaGrid img:hover {
+  transform: scale(1.05);
+  filter: brightness(0.9);
+}
+
+/* ---------- Animações ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
