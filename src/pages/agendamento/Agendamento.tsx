@@ -6,20 +6,25 @@
   import type { returnFuncionario } from "../../schemas/funcionario.schema"
   import style from "./style.module.css"
   import { Calendario } from "@/components/calendario/calendario"
+import type { returnDDSemana } from "@/schemas/ddSemana.schema"
+import { toast } from "react-toastify"
 
 
   export const Agendamento = ()=>{
       const navigate = useNavigate()
       const [funcionario,setFuncionario] = useState<returnFuncionario[]>([])
+      const [ddsemana,setDdsemana] = useState<returnDDSemana[]>([])
       const [isModalOpen, setIsModalOpen] = useState(false);
+      const [isModalOpen2, setIsModalOpen2] = useState(false);
       const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
       const [date, setDate] = useState<number | null>(new Date().getDate());
       const [mes, setMes] = useState<number>(new Date().getMonth());
       const [ano, setAno] = useState<number>(new Date().getFullYear());
-      const [diaSemana, setDiaSemana] = useState<string>("");
+      const [diaSemana, setDiaSemana] = useState<number>(0);
       const [selectedTime, setSelectedTime] = useState<string>("");
       const [meuValor, setMeuValor] = useState<string>("");
       const [idSelecionado, setIdSelecionado] = useState<number | null>(null);
+      const [times, setTimes] = useState<string[]>([]);
 
   const salvarData = (data: Date) => {
     setMes(data.getMonth());
@@ -27,7 +32,7 @@
   };
 
   const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-  const diasSemana = [7,1,2,3,4,5,6];
+  const diasSemana = [10,4,5,6,7,8,9];
 
       const validateUser = async(token:string)=>{
           try {
@@ -47,32 +52,137 @@
           }
       }
 
-      const generateTimes = (): string[] => {
-    const times: string[] = [];
-    for (let h = 10; h <= 18; h++) {
-      times.push(`${h.toString().padStart(2, "0")}:00`);
-      times.push(`${h.toString().padStart(2, "0")}:30`);
-    }
-    return times.filter((t) => t <= "18:00");
-  };
+      const pegarDiaDaSemana = async () => {
+        const { data } = await apiController.get("ddsemana")
 
-  const times = generateTimes();
+        setDdsemana(data)
+      }
 
-      const pegarTodosFuncionarios = async (nome?: string,limite?:number,offset?:number) => {
-          const { data } = await apiController.get("funcionario", {
-              params: { 
-                  nome: nome ,
-                  limite: limite,
-                  offset: offset,
+      const agendar = async (funcionario:number,hora:string,dia:string,mes:string,ano:string,usuario:number,diaDaSemana:number) => {
+          const body = {
+            hora:hora,
+            diaMes:dia,
+            mes:mes,
+            ano:ano,
+            usuario:usuario,
+            funcionario:funcionario,
+            ddsemana:diaDaSemana
+          }
+
+          const { data } = await apiController.post("agenda",body)
+      }
+
+      const pegarTodosFuncionarios = async (nome?: string, limite?: number, offset?: number) => {
+  const { data } = await apiController.get("funcionario", {
+    params: { nome, limite, offset }
+  });
+  setFuncionario(data.sort((a, b) => a.id - b.id));
+};
+
+      const gerarHorarios = (horaInicio: string, horaFim: string): string[] => {
+        const horarios: string[] = [];
+
+        const inicio = horaInicio.slice(0, 5); 
+        const fim = horaFim.slice(0, 5);   
+
+        if (inicio === "00:00" && fim === "00:00") {
+          toast.error("Este dia não abre para agendamento");
+          return [];
+        }
+
+        const [horaInicial, minutoInicial] = inicio.split(":").map(Number);
+        const [horaFinal, minutoFinal] = fim.split(":").map(Number);
+
+        let hora = horaInicial;
+        let minuto = minutoInicial;
+
+
+        const agora = new Date();
+        const hoje = agora.getDate();
+        const mesAtual = agora.getMonth();
+        const anoAtual = agora.getFullYear();
+
+        const diaSelecionado = selectedDate; 
+
+        while (hora < horaFinal || (hora === horaFinal && minuto <= minutoFinal)) {
+
+          const horarioStr = `${hora.toString().padStart(2, "0")}:${minuto.toString().padStart(2, "0")}`;
+
+
+          if (hora !== 12) {
+
+            if (
+              diaSelecionado &&
+              diaSelecionado.getDate() === hoje &&
+              diaSelecionado.getMonth() === mesAtual &&
+              diaSelecionado.getFullYear() === anoAtual
+            ) {
+              if (hora > agora.getHours() || (hora === agora.getHours() && minuto > agora.getMinutes())) {
+                horarios.push(horarioStr);
               }
-          })
-          setFuncionario(data.sort((a: { id: number }, b: { id: number }) => a.id - b.id));
+            } else {
+              horarios.push(horarioStr);
+            }
+          }
+
+          minuto += 30;
+          if (minuto >= 60) {
+            minuto = 0;
+            hora++;
+          }
+        }
+
+        return horarios;
       };
 
       const abrirModal = (id: number) => {
-        setIdSelecionado(id);
+        
+      setIdSelecionado(id);
       setIsModalOpen(prev => !prev);
+      setSelectedDate(new Date()); 
+      setDate(new Date().getDate());
+      setDiaSemana(0);
+      setTimes([]);
+      setSelectedTime("");
       };
+
+      const pegarAgendamentosDoDia = async (funcionarioId: number, dia: string, mes: string, ano: string) => {
+        try {
+          const { data } = await apiController.get("agenda", {
+            params: { funcionario: funcionarioId, diaMes: dia, mes, ano } // mes deve ser "agosto", etc.
+          });
+          return data;
+        } catch (error) {
+          console.log("Erro ao buscar agendamentos", error);
+          return [];
+        }
+      };
+
+      const atualizarHorariosDisponiveis = async (
+        funcionarioId: number,
+        dia: string,
+        mes: string,
+        ano: string,
+        horarios: string[]
+      ): Promise<string[]> => {
+        try {
+          const agendamentos = await pegarAgendamentosDoDia(funcionarioId, dia, mes, ano);
+
+          const horariosOcupados = agendamentos.map(a => a.hora.slice(0, 5));
+
+          const horariosDisponiveis = horarios.filter(h => !horariosOcupados.includes(h));
+          setTimes(horariosDisponiveis);
+          return horariosDisponiveis;
+        } catch (error) {
+          console.log("Erro ao atualizar horários disponíveis", error);
+          setTimes([]);
+          return [];
+        }
+      };
+
+      const abrirModal2 = () => {
+        setIsModalOpen2(prev => !prev)
+      }
 
       useEffect(()=>{
           const token = localStorage.getItem("token")
@@ -81,25 +191,33 @@
           } else {
               validateUser(token)
               pegarTodosFuncionarios()
+              pegarDiaDaSemana()
           }
 
            const valor = localStorage.getItem("user"); 
-    if (valor) {
-      setMeuValor(JSON.parse(valor)); 
-    }
-
-            if (isModalOpen) {
-              document.body.style.overflow = "hidden"
-            } else {
-              document.body.style.overflow = ""
+            if (valor) {
+              setMeuValor(JSON.parse(valor)); 
             }
+      },[]) 
 
-            return () => {
-              document.body.style.overflow = ""
-            }
+      useEffect(() => {
+        if (isModalOpen) {
+          document.body.style.overflow = "hidden";
+        } else {
+          document.body.style.overflow = "";
+        }
 
+        return () => { document.body.style.overflow = ""; };
 
-      },[isModalOpen]) 
+}, [isModalOpen]);
+
+      useEffect(() => {
+        if (!ddsemana.length) return;
+        const dia = ddsemana.find(d => d.id === diaSemana);
+        if (dia) {
+          setTimes(gerarHorarios(dia.horaInicial, dia.horaFinal));
+        }
+      }, [ddsemana, diaSemana]);
 
       return<>
           <Header/>
@@ -126,37 +244,96 @@
           </main>
 
 
-  {isModalOpen && (
-    <div className={style.modalOverlay} onClick={() => setIsModalOpen(false)}>
-      <div className={style.modalContent} onClick={(e) => e.stopPropagation()}>
+        {isModalOpen && (
+          <div className={style.modalOverlay} onClick={() => setIsModalOpen(false)}>
+            <div className={style.modalContent} onClick={(e) => e.stopPropagation()}>
+
+        <Calendario
+          date={selectedDate}
+          onSelect={async (newDate) => {
+            if (!newDate) return;
+
+            const dia = newDate.getDate();
+            const mesIndex = newDate.getMonth();
+            const ano = newDate.getFullYear();
+            const mesNome = meses[mesIndex].toLowerCase();
+
+            const ds = diasSemana[newDate.getDay()];
+            setDiaSemana(ds);
+
+            const diaSemanaConfig = ddsemana.find(d => d.id === ds);
+
+            if (!diaSemanaConfig || (diaSemanaConfig.horaInicial.slice(0,5) === "00:00" && diaSemanaConfig.horaFinal.slice(0,5) === "00:00")) {
+              setTimes([]);
+              setSelectedTime("");
+              return;
+            }
+
+            const todosHorarios = gerarHorarios(diaSemanaConfig.horaInicial, diaSemanaConfig.horaFinal);
+
+            const horariosDisponiveis = await atualizarHorariosDisponiveis(
+              idSelecionado!,
+              dia.toString(),
+              mesNome,
+              ano.toString(),
+              todosHorarios
+            );
+
+            setTimes(horariosDisponiveis);
+            setSelectedDate(newDate);
+            setDate(dia);
+            setMes(mesIndex);
+            setAno(ano);
+            setSelectedTime("");
+          }}
+          salvarData={salvarData}
+        />
 
 
+        <select className={style.hora} value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
+          <option value="">Selecionar hora</option>
+          {times.map(time => (
+            <option key={time} value={time}>{time}</option>
+          ))}
+        </select>
 
-<Calendario
-  date={selectedDate}
-  onSelect={(newDate) => {
-    if (!newDate) return;
-    setSelectedDate(newDate);
-    setDate(newDate.getDate());
-    setDiaSemana(diasSemana[newDate.getDay()]);
-    console.log(
-    idSelecionado,
-    meuValor.id,
-    newDate.getDate(),
-    diasSemana[newDate.getDay()],
-    meses[newDate.getMonth()],
-    newDate.getFullYear()
-    );
-  }} salvarData={salvarData}/>
-
-      <select className={style.hora} value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
-      <option value="">Selecionar hora</option>
-      {times.map((time) => (<option key={time} value={time}> {time}
-      </option>))}
-      </select>
+        <button onClick={() => {setIsModalOpen2(true)}}>Confirmar Agendamento</button>
       </div>
     </div>
   )}
+
+{isModalOpen2 && (
+  <div className={style.modalOverlay2} onClick={() => setIsModalOpen2(false)}>
+    <div className={style.modalContent2} onClick={(e) => e.stopPropagation()}>
+      <button 
+        className="confirm" 
+        onClick={async () => {
+          if (idSelecionado === null) {
+            toast.error("Selecione um funcionário.");
+            return;
+          }
+          if (!selectedTime) {
+            toast.error("Selecione um horário.");
+            return;
+          }
+          try {
+            await agendar(idSelecionado, selectedTime, String(date), meses[mes], String(ano), meuValor.id, diaSemana);
+            toast.success("Agendamento confirmado com sucesso!");
+            
+            setTimeout(() => {
+              setIsModalOpen(false);
+              setSelectedTime("");
+              setIsModalOpen2(false);
+            }, 3600); 
+          } catch (error) {
+            toast.error("Você já tem 3 agendamentos por favor cancele 1 de seus agendamentos caso queira marcar neste horario.");
+          }
+        }}
+      > Confirmar</button>
+      <button className="cancel" onClick={() => setIsModalOpen2(false)}>Cancelar</button>
+    </div>
+  </div>
+)}
           <Footer/>
       </>
   }
