@@ -6,7 +6,7 @@ interface CalendarioProps {
   salvarData: (date: Date) => void;
 }
 
-export const Calendario = ({ date, onSelect, salvarData }: CalendarioProps) => {
+export const Calendario = ({ onSelect, salvarData }: CalendarioProps) => {
   const today = new Date();
 
   return (

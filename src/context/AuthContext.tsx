@@ -1,3 +1,49 @@
+// import { useState, type ReactNode } from "react";
+// import { createContext } from "vm";
+// import { any, email, string } from "zod";
+// import { apiController } from "../controller/api.controller";
+
+// export const AuthContext = createContext()
+
+
+// export const AuthProvider = ({ children }: { children: ReactNode })=>{
+//     const [user, setUser] = useState(null)
+
+//     const loadingStoredata = async ()=>{
+//         const storageUser = localStorage.getItem("user")
+//         const storagetoken = localStorage.getItem("token")
+
+//         if (storageUser && storagetoken){
+//             setUser(storageUser)
+//         }
+//     }
+    
+//     const signIn = async (email: string, password: string)=>{
+//         const res = await apiController.post("/login", {email,password})
+        
+//         if (res.data.error){
+//             alert(res.data.error)
+//         }else {
+//             setUser(res.data)
+//             apiController.defaults.headers.common[
+//                 "Authorization"
+//             ] = `Bearer ${res.data.token}`
+//             localStorage.setItem("user", res.data.user)
+//             localStorage.setItem("token", res.data.token)
+//         }
+//     }
+
+//     return(
+//         <AuthContext.Provider value={{
+//             user,
+//             signed: !!user,
+//             signIn
+//         }}>
+//             {children}
+//         </AuthContext.Provider>
+//     )
+// }
+
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { apiController } from "../controller/api.controller"
 
@@ -18,7 +64,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         if (token) {
         apiController.defaults.headers.common["Authorization"] = `Bearer ${token}`
-        // opcional: buscar dados do usuário logado
         // apiController.get("/me").then((res) => setUser(res.data)).catch(() => logout())
         }
     }, [token])
@@ -29,8 +74,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (res.status === 200) {
         const token = res.data.token
         localStorage.setItem("token", token)
+        // res.data.user.isadmin
+        // setUser(user)
         setToken(token)
-        setUser(res.data.user ?? null)
+        setUser(res.data.user)
         }
     }
 
