@@ -1,7 +1,7 @@
-import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Header } from "../../components/header/Header"
 import { Footer } from "../../components/footer/Footer"
+import IHome from "../../assets/IHome.png"
 import style from "./style.module.css"
 
 export const Home = ()=>{
@@ -9,8 +9,9 @@ export const Home = ()=>{
 
     return<>
         <Header/>
-
-        <main className={style.main}>
+            <section>
+                <img className={style.Ihome} src={IHome} alt="IHome" />
+            </section>
             <section className={style.Home}>
                 <div className={style.Historia}>
                     <h1>História</h1>
@@ -27,7 +28,6 @@ export const Home = ()=>{
                     </p>
                 </div>
             </section>
-        </main>
 
         <Footer/>
     </>

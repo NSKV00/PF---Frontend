@@ -4,6 +4,10 @@
     padding-left: 32px;
     padding-right:32px ;
 }
+.IHome {
+    height: 10rem;
+    width: 10rem;
+}
 .Home{
     display: flex;
     flex-direction:column ;
