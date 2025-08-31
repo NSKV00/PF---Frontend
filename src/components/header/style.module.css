@@ -1,31 +1,33 @@
-main{
+main {
   height: 100vh;
   background-color: rgb(24, 24, 24);
 }
+
 .header {
   background-color: #d9bba0ee;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 2.2rem 2rem;
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
 }
 
 .Logo {
-  padding-left: 2rem;
   position: absolute;
   top: 0.1rem;
   left: 0.5rem;
   height: 140%;
+  padding-left: 2rem;
+  z-index: 999;
 }
 
 .MenuLateral {
   color: var(--creme-suave);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 .MenuLateral:hover {
   transform: scale(1.05);
@@ -35,25 +37,9 @@ main{
   width: 2rem;
 }
 
-.loginBtn {
-  background-color: var(--verde-salvia);
-  color: var(--branco-puro);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.loginBtn:hover {
-  background-color: #8fa377;
-}
-
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
@@ -73,13 +59,11 @@ main{
   flex-direction: column;
   padding: 2rem 1rem;
   transition: left 0.3s ease;
-  z-index: 11;
+  z-index: 999;
 }
-
-.open {
+.Menu.open {
   left: 0 !important;
 }
-
 .Menu a {
   display: flex;
   align-items: center;
@@ -91,7 +75,98 @@ main{
   border-radius: 6px;
   transition: background 0.2s;
 }
-
 .Menu a:hover {
   background-color: var(--creme-suave);
+}
+
+.MenuUsuario {
+  color: var(--creme-suave);
+  text-decoration: none;
+  cursor: pointer;
+  padding: 10px;
+  position: relative;
+}
+.MenuU {
+  position: absolute;
+  top: 180%; 
+  right: 0;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 1rem;
+  min-width: 220px;
+  z-index: 99;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+.MenuU .magent {
+  text-decoration: none;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+.MenuU.open {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profilePic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  margin-bottom: 0.5rem;
+}
+.changePhoto {
+  font-size: 0.85rem;
+  color: #1e3a8a;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.changePhoto:hover {
+  color: #b22222;
+}
+.logoutBtn {
+  background: #b22222;
+  color: #fff;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.logoutBtn:hover {
+  background: #8b1a1a;
+  transform: scale(1.03);
+}
+
+.loginBtn {
+  background-color: var(--verde-salvia);
+  color: var(--branco-puro);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.loginBtn:hover {
+  background-color: #8fa377;
 }

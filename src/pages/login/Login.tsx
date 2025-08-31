@@ -32,7 +32,7 @@ export const Login = () => {
     try {
       await login(email, password)
       toast.success("Login realizado com sucesso!")
-      setTimeout(() => navigate("/"), 1500)
+      setTimeout(() => navigate("/"), 2000)
     } catch (error: any) {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message)

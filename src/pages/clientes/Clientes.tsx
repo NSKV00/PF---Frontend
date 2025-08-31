@@ -5,7 +5,9 @@ import { Footer } from "../../components/footer/Footer"
 
 
 export const Clientes = ()=>{
-   // const navigate = useNavigate()
+   const navigate = useNavigate()
+
+   
 
     return<>
     
