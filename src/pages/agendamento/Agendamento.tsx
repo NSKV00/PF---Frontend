@@ -6,8 +6,8 @@
   import type { returnFuncionario } from "../../schemas/funcionario.schema"
   import style from "./style.module.css"
   import { Calendario } from "@/components/calendario/calendario"
-import type { returnDDSemana } from "@/schemas/ddSemana.schema"
-import { toast } from "react-toastify"
+  import type { returnDDSemana } from "@/schemas/ddSemana.schema"
+  import { toast } from "react-toastify"
 
 
   export const Agendamento = ()=>{
@@ -16,7 +16,7 @@ import { toast } from "react-toastify"
       const [ddsemana,setDdsemana] = useState<returnDDSemana[]>([])
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [isModalOpen2, setIsModalOpen2] = useState(false);
-      const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+      const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
       const [date, setDate] = useState<number | null>(new Date().getDate());
       const [mes, setMes] = useState<number>(new Date().getMonth());
       const [ano, setAno] = useState<number>(new Date().getFullYear());
@@ -57,6 +57,7 @@ import { toast } from "react-toastify"
 
         setDdsemana(data)
       }
+
 
       const agendar = async (funcionario:number,hora:string,dia:string,mes:string,ano:string,usuario:number,diaDaSemana:number) => {
           const body = {
@@ -139,7 +140,7 @@ import { toast } from "react-toastify"
         
       setIdSelecionado(id);
       setIsModalOpen(prev => !prev);
-      setSelectedDate(new Date()); 
+      setSelectedDate(undefined); 
       setDate(new Date().getDate());
       setDiaSemana(0);
       setTimes([]);
@@ -209,7 +210,7 @@ import { toast } from "react-toastify"
 
         return () => { document.body.style.overflow = ""; };
 
-}, [isModalOpen]);
+      }, [isModalOpen]);
 
       useEffect(() => {
         if (!ddsemana.length) return;
@@ -253,6 +254,8 @@ import { toast } from "react-toastify"
           onSelect={async (newDate) => {
             if (!newDate) return;
 
+            setSelectedDate(newDate);
+
             const dia = newDate.getDate();
             const mesIndex = newDate.getMonth();
             const ano = newDate.getFullYear();
@@ -266,6 +269,7 @@ import { toast } from "react-toastify"
             if (!diaSemanaConfig || (diaSemanaConfig.horaInicial.slice(0,5) === "00:00" && diaSemanaConfig.horaFinal.slice(0,5) === "00:00")) {
               setTimes([]);
               setSelectedTime("");
+              setSelectedDate(undefined)
               return;
             }
 
@@ -280,7 +284,6 @@ import { toast } from "react-toastify"
             );
 
             setTimes(horariosDisponiveis);
-            setSelectedDate(newDate);
             setDate(dia);
             setMes(mesIndex);
             setAno(ano);
@@ -312,6 +315,10 @@ import { toast } from "react-toastify"
             toast.error("Selecione um funcionário.");
             return;
           }
+          if (!selectedDate) {
+            toast.error("Selecione um dia válido.");
+            return;
+          }
           if (!selectedTime) {
             toast.error("Selecione um horário.");
             return;
@@ -326,7 +333,7 @@ import { toast } from "react-toastify"
               setIsModalOpen2(false);
             }, 3600); 
           } catch (error) {
-            toast.error("Você já tem 3 agendamentos por favor cancele 1 de seus agendamentos caso queira marcar neste horario.");
+            toast.error("Limite de 3 agendamentos atingido. Por favor, cancele um existente para agendar neste horário.");
           }
         }}
       > Confirmar</button>

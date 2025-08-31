@@ -1,83 +1,85 @@
 import { Link } from "react-router-dom"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { createIcons, icons } from "lucide"
 import style from "./style.module.css"
 import "../../index.css"
 import Logo from "../../assets/Logo.png"
-import { useAuth } from "../../hooks/useAuth"
 
 export const Header:React.FC=()=>{
-    
+
+    const [menuUOpen, setMenuUOpen] = useState(false)
+    const menuURef = useRef<HTMLDivElement | null>(null)
+    const buttonURef = useRef<HTMLDivElement | null>(null)
+
     const MenuLateral = ()=>{
         const overlay = document.getElementById("overlay")
         const menu = document.getElementById("Menu")
-
+        
         if (menu && overlay) {
             menu.classList.toggle(style.open)
             overlay.style.display = menu.classList.contains(style.open) ? "block" : "none"
         }
     }
 
-    const MenuUsuario = ()=>{
-        const overlayU = document.getElementById("overlayU")
-        const menuU = document.getElementById("menuU")
-
-        if (menuU && overlayU){
-            menuU.classList.toggle(style.open)
-            overlayU.style.display = menuU.classList.contains(style.open) ? "block":"none"
-        }
+    const toggleMenuUsuario = ()=>{
+        setMenuUOpen(prev => !prev)
     }
 
     useEffect(()=>{
-        // const userData = localStorage.getItem("user")
-        // setUsuario(userData.admin)
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                menuURef.current && 
+                !menuURef.current.contains(event.target as Node) &&
+                buttonURef.current &&
+                !buttonURef.current.contains(event.target as Node)
+            ) {
+                setMenuUOpen(false)
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return ()=> document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
+
+    useEffect(()=>{
         createIcons({ icons })
     }, [])
 
     return <>
         <header className={style.header}>
-
             <Link to="/">
                  <img className={style.Logo} src={Logo} alt="logo" />
             </Link>
-            {/* <img className={style.Logo} src={Logo} alt="logo" /> */}
 
             <div id="overlay" className={style.overlay} onClick={MenuLateral}></div>
-
             <div id="Menu" className={style.Menu}>
                 <Link to="/"><span data-lucide="home"></span>Home</Link>
-                <Link to="/agendamento" ><span data-lucide="notebook-tabs"></span>Agendamento</Link>
-                <Link to="/servicos" ><span data-lucide="square-scissors"></span>Serviços</Link>
-                <Link to="/clientes"><span data-lucide="client">Clientes</span></Link>
-                {/* {userData.admin === true && (<Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>)} */}
-            </div>
-
-            <div id="overlayU" className={style.overlayU} onClick={MenuUsuario}></div>
-
-            <div id="menuU" className={style.MenuU}>
-                <div className={style.profileSection}>
-                <img src=""/*{userData?.fotoPerfil || "/default-profile.png"}*/ alt="Foto de Perfil" className={style.profilePic} />
-                <label htmlFor="uploadFoto" className={style.changePhoto}>
-                    Trocar Foto
-                </label>
-                <input id="uploadFoto" type="file" accept="image/*" style={{ display: "none" }}
-                /*onChange={handleTrocarFoto}*/ />
-                </div>
-
-                <Link to="/meusAgendamentos">Meus Agendamentos</Link>
-
-                <button className={style.logoutBtn} /*</div>onClick={handleLogout}*/>
-                    <span data-lucide="log-out"></span> Logout
-                </button>
+                <Link to="/agendamento"><span data-lucide="notebook-tabs"></span>Agendamento</Link>
+                <Link to="/servicos"><span data-lucide="square-scissors"></span>Serviços</Link>
+                <Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>
                 <span className={style.menu} data-lucide="menu"></span>
             </div>
-            <div className={style.MenuUsuario} onClick={MenuUsuario}>
+
+            <div ref={buttonURef} className={style.MenuUsuario} onClick={toggleMenuUsuario}>
                 <span className={style.menu} data-lucide="user"></span>
+                <div ref={menuURef} className={`${style.MenuU} ${menuUOpen ? style.open : ""}`}>
+                    <div className={style.profileSection}>
+                        <img src="/default-profile.png" alt="Foto de Perfil" className={style.profilePic} />
+                        <label htmlFor="uploadFoto" className={style.changePhoto}>
+                            Trocar Foto
+                        </label>
+                        <input id="uploadFoto" type="file" accept="image/*" style={{ display: "none" }} />
+                    </div>
+
+                    <Link className={style.magent} to="/meusAgendamentos">Meus Agendamentos</Link>
+
+                    <button className={style.logoutBtn}>
+                        <span data-lucide="log-out"></span> Logout
+                    </button>
+                </div>
             </div>
-            
         </header>
     </>
 }

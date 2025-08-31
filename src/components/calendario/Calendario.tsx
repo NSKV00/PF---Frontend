@@ -6,14 +6,14 @@ interface CalendarioProps {
   salvarData: (date: Date) => void;
 }
 
-export const Calendario = ({ onSelect, salvarData }: CalendarioProps) => {
+export const Calendario = ({ date,onSelect, salvarData }: CalendarioProps) => {
   const today = new Date();
 
   return (
     <div>
       <Calendar
         mode="single"
-        selected={undefined}
+        selected={date}
         onSelect={onSelect}
         onMonthChange={salvarData}
         className="
