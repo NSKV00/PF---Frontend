@@ -79,7 +79,11 @@ const pegarAgendamento = async (opcao?: "usuario" | "funcionario", valor?: strin
 
     const agora = new Date();
     const dataComDate = data.map((item: any) => ({ ...item, dataObj: parseDate(item) }));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const filtrados = ativo ? dataComDate : dataComDate.filter(item => item.dataObj >= agora);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const dataOrdenada = filtrados.sort((a,b) => a.dataObj.getTime() - b.dataObj.getTime());
     const limite = limite2 ?? dataOrdenada.length;
 

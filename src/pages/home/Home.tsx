@@ -3,9 +3,36 @@ import { Header } from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
 import HeroLogo from "../../assets/HeroLogo.png";
 import style from "./style.module.css";
+import { useEffect } from "react";
+import { apiController } from "@/controller/api.controller";
 
 export const Home = () => {
-   useNavigate();
+   const navigate = useNavigate();
+
+   const validateUser = async(token:string)=>{
+             try {
+                 const res = await apiController.get("usuario/retrieve",{
+                     headers:{
+                         Authorization: `Bearer ${token}`
+                     }
+                 })
+                 if (res.data){
+                     localStorage.setItem("user", JSON.stringify(res.data))
+                 }
+             // eslint-disable-next-line @typescript-eslint/no-unused-vars
+             } catch (error){
+                return
+             }
+         }
+
+    useEffect(() => {
+      const token = localStorage.getItem("token")
+          if (!token){
+              navigate("/login")
+          } else {
+              validateUser(token)
+          }
+    },[])
 
   return (
     <>

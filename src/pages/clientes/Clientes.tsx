@@ -17,6 +17,7 @@ export const Clientes = () => {
   const [temProximo, setTemProximo] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [idSelecionado, setIdSelecionado] = useState(0)
+  const [valor, setValor] = useState("")
 
 
     const validateUser = async(token:string)=>{
@@ -86,6 +87,7 @@ export const Clientes = () => {
             placeholder="Digite para pesquisar..."  
             onChange={async (e) => { 
             const valor = e.target.value
+            setValor(e.target.value)
             if (valor.trim() === "") {
             pegarCliente(undefined,undefined,8,0)
             setOffset(0)
@@ -142,12 +144,12 @@ export const Clientes = () => {
             <div className={style.modalContent2} onClick={(e) => e.stopPropagation()}>
               <button className={style.confirm} onClick={async () => {
                 await trocarAtivo(idSelecionado)
-                pegarCliente(undefined,undefined,8,0)
+                pegarCliente(opcao,valor,8,0)
                 toast.success("Status atualizado com sucesso")
 
                 setTimeout(() => {
                   setIsModalOpen2(false)
-                }, 3600);
+                }, 100);
               }}> Confirmar</button>
               <button className={style.cancel} onClick={() => setIsModalOpen2(false)}>Cancelar</button>
             </div>

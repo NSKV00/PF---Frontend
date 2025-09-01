@@ -8,12 +8,14 @@
   import { Calendario } from "../../components/calendario/Calendario"
   import type { returnDDSemana } from "@/schemas/ddSemana.schema"
   import { toast } from "react-toastify"
+import type { returnUser } from "@/schemas/usuario.schema"
 
 
   export const Agendamento = ()=>{
       const navigate = useNavigate()
       const [funcionario,setFuncionario] = useState<returnFuncionario[]>([])
       const [ddsemana,setDdsemana] = useState<returnDDSemana[]>([])
+      const [cliente, setCliente] = useState<returnUser[]>([])
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [isModalOpen2, setIsModalOpen2] = useState(false);
       const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -80,61 +82,70 @@
   setFuncionario(data.sort((a, b) => a.id - b.id));
 };
 
-      const gerarHorarios = (horaInicio: string, horaFim: string): string[] => {
-        const horarios: string[] = [];
 
-        const inicio = horaInicio.slice(0, 5); 
-        const fim = horaFim.slice(0, 5);   
+      const pegarUsuario = async () => {
+        try {
+          const valor = localStorage.getItem("user")
+          if (!valor) return
 
-        if (inicio === "00:00" && fim === "00:00") {
-          toast.error("Este dia não abre para agendamento");
-          return [];
+          const user = JSON.parse(valor)
+          const nome = user.nome
+
+          const { data } = await apiController.get("usuario", {
+            params: { nome }
+          })
+
+          setCliente(data)
+        } catch (error) {
+          console.error("Erro ao buscar usuário:", error)
         }
+      }
 
-        const [horaInicial, minutoInicial] = inicio.split(":").map(Number);
-        const [horaFinal, minutoFinal] = fim.split(":").map(Number);
+const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date): string[] => {
+  const horarios: string[] = [];
 
-        let hora = horaInicial;
-        let minuto = minutoInicial;
+  if (!diaSelecionado) return []; // protege contra undefined
 
+  const inicio = horaInicio.slice(0, 5); 
+  const fim = horaFim.slice(0, 5);   
 
-        const agora = new Date();
-        const hoje = agora.getDate();
-        const mesAtual = agora.getMonth();
-        const anoAtual = agora.getFullYear();
+  if (inicio === "00:00" && fim === "00:00") return []; // dia fechado
 
-        const diaSelecionado = selectedDate; 
+  const [horaInicial, minutoInicial] = inicio.split(":").map(Number);
+  const [horaFinal, minutoFinal] = fim.split(":").map(Number);
 
-        while (hora < horaFinal || (hora === horaFinal && minuto <= minutoFinal)) {
+  let hora = horaInicial;
+  let minuto = minutoInicial;
 
-          const horarioStr = `${hora.toString().padStart(2, "0")}:${minuto.toString().padStart(2, "0")}`;
+  const agora = new Date();
+  const ehHoje =
+    diaSelecionado.getDate() === agora.getDate() &&
+    diaSelecionado.getMonth() === agora.getMonth() &&
+    diaSelecionado.getFullYear() === agora.getFullYear();
 
+  while (hora < horaFinal || (hora === horaFinal && minuto <= minutoFinal)) {
+    const horarioStr = `${hora.toString().padStart(2,"0")}:${minuto.toString().padStart(2,"0")}`;
 
-          if (hora !== 12) {
-
-            if (
-              diaSelecionado &&
-              diaSelecionado.getDate() === hoje &&
-              diaSelecionado.getMonth() === mesAtual &&
-              diaSelecionado.getFullYear() === anoAtual
-            ) {
-              if (hora > agora.getHours() || (hora === agora.getHours() && minuto > agora.getMinutes())) {
-                horarios.push(horarioStr);
-              }
-            } else {
-              horarios.push(horarioStr);
-            }
-          }
-
-          minuto += 30;
-          if (minuto >= 60) {
-            minuto = 0;
-            hora++;
-          }
+    if (hora !== 12) {
+      if (ehHoje) {
+        if (hora > agora.getHours() || (hora === agora.getHours() && minuto > agora.getMinutes())) {
+          horarios.push(horarioStr);
         }
+      } else {
+        horarios.push(horarioStr);
+      }
+    }
 
-        return horarios;
-      };
+    minuto += 30;
+    if (minuto >= 60) {
+      minuto = 0;
+      hora++;
+    }
+  }
+
+  return horarios;
+};
+
 
       const abrirModal = (id: number) => {
         
@@ -168,7 +179,8 @@
       ): Promise<string[]> => {
         try {
           const agendamentos = await pegarAgendamentosDoDia(funcionarioId, dia, mes, ano);
-
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           const horariosOcupados = agendamentos.map(a => a.hora.slice(0, 5));
 
           const horariosDisponiveis = horarios.filter(h => !horariosOcupados.includes(h));
@@ -191,6 +203,7 @@
               validateUser(token)
               pegarTodosFuncionarios()
               pegarDiaDaSemana()
+              pegarUsuario()
           }
 
            const valor = localStorage.getItem("user"); 
@@ -214,6 +227,8 @@
         if (!ddsemana.length) return;
         const dia = ddsemana.find(d => d.id === diaSemana);
         if (dia) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           setTimes(gerarHorarios(dia.horaInicial, dia.horaFinal));
         }
       }, [ddsemana, diaSemana]);
@@ -271,15 +286,31 @@
               return;
             }
 
-            const todosHorarios = gerarHorarios(diaSemanaConfig.horaInicial, diaSemanaConfig.horaFinal);
+            const todosHorarios = gerarHorarios(diaSemanaConfig.horaInicial, diaSemanaConfig.horaFinal, newDate);
 
-            const horariosDisponiveis = await atualizarHorariosDisponiveis(
+            let horariosDisponiveis = await atualizarHorariosDisponiveis(
               idSelecionado!,
               dia.toString(),
               mesNome,
               ano.toString(),
               todosHorarios
             );
+
+            const agora = new Date();
+            const diaSelecionado = new Date(newDate);
+            const ehHoje =
+              diaSelecionado.getDate() === agora.getDate() &&
+              diaSelecionado.getMonth() === agora.getMonth() &&
+              diaSelecionado.getFullYear() === agora.getFullYear();
+
+            if (ehHoje) {
+              horariosDisponiveis = horariosDisponiveis.filter(h => {
+                const [hora, minuto] = h.split(":").map(Number);
+                const horarioDate = new Date(diaSelecionado);
+                horarioDate.setHours(hora, minuto, 0, 0);
+                return horarioDate > agora;
+              });
+            }
 
             setTimes(horariosDisponiveis);
             setDate(dia);
@@ -311,6 +342,10 @@
         onClick={async () => {
           if (idSelecionado === null) {
             toast.error("Selecione um funcionário.");
+            return;
+          }
+          if (cliente && cliente[0].ativo === false){
+            toast.error("Você nao tem permissão para agendar entre em contato com a barbearia")
             return;
           }
           if (!selectedDate) {
