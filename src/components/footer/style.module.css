@@ -19,8 +19,19 @@ img {
 }
 .footer .Contatodiv {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
 }
 .footer .p {
     min-width: max-content;
+}
+@media (max-width:600px){
+    .footer .p{
+        min-width: unset;
+    }
+    .footer{
+        gap:0.6rem;
+    }
+    img{
+        height: 5rem;
+    }
 }

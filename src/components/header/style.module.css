@@ -1,5 +1,5 @@
 main{
-  height: 100vh;
+  min-height: 100vh;
   background-color: rgb(24, 24, 24);
 }
 .header {
@@ -8,7 +8,7 @@ main{
   justify-content: flex-end;
   align-items: center;
   padding: 2.2rem 2rem;
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -94,4 +94,15 @@ main{
 
 .Menu a:hover {
   background-color: var(--creme-suave);
+}
+@media (max-width: 600px) {
+  .Logo{
+    top:0.8rem;
+    height:110%;
+    padding-left: 0%;
+  }
+  .MenuLateral svg{
+    height: 2.5rem;
+    width:2.5rem;
+  }
 }

@@ -1,6 +1,6 @@
 .main{
     display: flex;
-    padding: 32px;
+    padding: 64px;
     padding-left: 32px;
     padding-right:32px ;
 }
@@ -8,14 +8,14 @@
     display: flex;
     flex-direction:column ;
     background-color: #525151;
-    padding: 42px;
+    padding: 20px;
 
 }
 .Historia{
     display: flex;
     padding: 32px;
     color: #ffff;
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     padding-left: 12px;
 }
 .texto{
@@ -24,4 +24,16 @@
     color: #ffff;
     padding-left: 24px;
     text-align: justify;
+}
+@media (max-width: 600px) {
+    .texto{
+        font-size: 1.0rem;
+        padding-left: 4px;
+    }
+    .Historia{
+        font-size: 1.6rem;
+    }
+    .Home{
+        padding-top: 40px;
+    }
 }

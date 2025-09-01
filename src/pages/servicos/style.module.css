@@ -4,30 +4,97 @@
     max-width: 100%;
     flex-wrap: wrap;
     gap: 12px;
+    padding-left: 160px;
 }
 .tudo{
     display: flex;
     width: 100%;
-    gap: 128px;
     padding: 32px;
-    height: 200px;
+    gap: 40px;
+    
 }
 .tudo p {
     display: flex;
-    padding: 60px;
+    padding: 0;
     text-align: center;
-    color: #fafafa;
+    color: #ff0000;
     align-items: flex-end;
-    justify-content: center;
+    flex-wrap: wrap;
+}
+.tudo > div {
+    width: 40%;
 }
 .tudo.pacote{
     width: 50%;
-    padding: 32px;
     text-align: center;
-
+    
 }
-.tudo .pacotePlus{
-    width: 49.45%;
-    padding: 8px;
+
+/* .pacote{
+    background-image: url(/corte.jpg);
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    height: 250px;
+    border-radius: 20px;
+    background-position: center;
+} */
+.pacote {
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* texto no topo */
+    align-items: center;
+    padding: 16px;
+    height: 450px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* overlay geral na imagem */
+.pacote::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2); 
+    border-radius: 20px;
+    z-index: 1;
+}
+
+/* caixinha atrás de cada texto */
+.pacote p {
+    margin: 6px 0;
+    padding: 4px 12px;
+    background: rgba(0, 0, 0, 0.6); /* tarja escura */
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
     text-align: center;
+    z-index: 2;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+}
+
+
+@media (max-width: 600px){
+    .tudo {
+        flex-direction: column;
+    }
+    .tudo >div {
+        width: 100%;
+    }
+    .servicos{
+        padding: 24px;
+    }
+    .pacote{
+        height: 254px;
+    }
+    .tudo p {
+        font-size: 0.9rem;
+    }
+    
 }
