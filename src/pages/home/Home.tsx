@@ -5,7 +5,7 @@ import HeroLogo from "../../assets/HeroLogo.png";
 import style from "./style.module.css";
 
 export const Home = () => {
-  const navigate = useNavigate();
+   useNavigate();
 
   return (
     <>

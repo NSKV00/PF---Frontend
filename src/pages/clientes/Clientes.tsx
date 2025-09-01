@@ -50,7 +50,7 @@ export const Clientes = () => {
       const dataOrdenada = data.sort((a: any, b: any) => b.id - a.id);
 
       setCliente(dataOrdenada.slice(0, limite2));
-      setTemProximo(data.length > limite2);
+      setTemProximo(data.length > limite2!);
       }
 
     const trocarAtivo = async (id:number) => {
@@ -60,7 +60,7 @@ export const Clientes = () => {
 
       const novoStatus = usuario.ativo ? false : true;
 
-      const { data } = await apiController.patch(`usuario/${id}`, {
+      await apiController.patch(`usuario/${id}`, {
         ativo: novoStatus
       })
     }

@@ -5,7 +5,7 @@
   import { apiController } from "../../controller/api.controller"
   import type { returnFuncionario } from "../../schemas/funcionario.schema"
   import style from "./style.module.css"
-  import { Calendario } from "@/components/calendario/calendario"
+  import { Calendario } from "../../components/calendario/Calendario"
   import type { returnDDSemana } from "@/schemas/ddSemana.schema"
   import { toast } from "react-toastify"
 
@@ -181,9 +181,7 @@
         }
       };
 
-      const abrirModal2 = () => {
-        setIsModalOpen2(prev => !prev)
-      }
+
 
       useEffect(()=>{
           const token = localStorage.getItem("token")
@@ -332,6 +330,7 @@
               setSelectedTime("");
               setIsModalOpen2(false);
             }, 3600); 
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (error) {
             toast.error("Limite de 3 agendamentos atingido. Por favor, cancele um existente para agendar neste horário.");
           }

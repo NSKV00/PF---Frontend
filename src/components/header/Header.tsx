@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createIcons, icons } from "lucide"
 import style from "./style.module.css"
 import "../../index.css"
@@ -56,6 +56,7 @@ export const Header:React.FC=()=>{
                 <Link to="/agendamento"><span data-lucide="notebook-tabs"></span>Agendamento</Link>
                 <Link to="/servicos"><span data-lucide="square-scissors"></span>Serviços</Link>
                 <Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>
+                <Link to="/agendamentos"><span data-lucide="calendar-days"></span>Agendamentos</Link>
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>

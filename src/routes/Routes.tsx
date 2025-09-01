@@ -7,6 +7,7 @@ import { Login } from "../pages/login/Login"
 import { Cadastro } from "../pages/cadastro/Cadastro"
 import { ProtectedRoutes } from "./ProtectedRoutes"
 import { MeusAgendamentos } from "../pages/Magendamentos/MeusAgendamentos"
+import { Agendamentos } from "@/pages/agendamentos/agendamentos"
 
 export function MainRoutes() {
 
@@ -18,5 +19,6 @@ export function MainRoutes() {
         <Route path="/clientes" element={<ProtectedRoutes><Clientes/></ProtectedRoutes>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/cadastro" element={<Cadastro/>} />
+        <Route path="/agendamentos" element={<Agendamentos/>} />
     </Routes>
 }
