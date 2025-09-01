@@ -8,6 +8,7 @@ import { Cadastro } from "../pages/cadastro/Cadastro"
 import { ProtectedRoutes } from "./ProtectedRoutes"
 import { MeusAgendamentos } from "../pages/Magendamentos/MeusAgendamentos"
 import { Agendamentos } from "@/pages/agendamentos/agendamentos"
+import { Funcionarios } from "@/pages/funcionarios/funcionarios"
 
 export function MainRoutes() {
 
@@ -20,5 +21,6 @@ export function MainRoutes() {
         <Route path="/login" element={<Login/>} />
         <Route path="/cadastro" element={<Cadastro/>} />
         <Route path="/agendamentos" element={<Agendamentos/>} />
+        <Route path="/funcionarios" element={<Funcionarios/>} />
     </Routes>
 }
