@@ -125,12 +125,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
 }
 .galeriaGrid {
-  display: grid;
+  display: flex;
   flex-direction: row;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap: 1rem;
+  gap: 2.5rem;
 }
 .galeriaGrid img {
   width: 100%;
