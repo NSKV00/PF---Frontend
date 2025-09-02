@@ -53,15 +53,14 @@ const navigate = useNavigate()
       }
 
 const pegarAgendamento = async () => {
-    const params: Record<string, any> = {};
 
     const valor2 = localStorage.getItem("user")
           if (!valor2) return
 
     const user = JSON.parse(valor2)
-    const nome2 = user.nome
+    const id2 = user.id
 
-    params.usuario = nome2;
+    const params = {usuario: id2,ativo: false }
 
 
     console.log(params);

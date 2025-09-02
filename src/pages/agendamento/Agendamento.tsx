@@ -24,8 +24,9 @@ import type { returnUser } from "@/schemas/usuario.schema"
       const [ano, setAno] = useState<number>(new Date().getFullYear());
       const [diaSemana, setDiaSemana] = useState<number>(0);
       const [selectedTime, setSelectedTime] = useState<string>("");
-      const [meuValor, setMeuValor] = useState<string>("");
-      const [idSelecionado, setIdSelecionado] = useState<number | null>(null);
+      const [meuValor, setMeuValor] = useState<returnUser | null>(null);
+      const [idSelecionado, setIdSelecionado] = useState<string | undefined>(undefined);
+      const [atual, setAtual] = useState<number>(0);
       const [times, setTimes] = useState<string[]>([]);
 
   const salvarData = (data: Date) => {
@@ -72,15 +73,22 @@ import type { returnUser } from "@/schemas/usuario.schema"
             ddsemana:diaDaSemana
           }
 
-          const { data } = await apiController.post("agenda",body)
+           await apiController.post("agenda",body)
       }
 
-      const pegarTodosFuncionarios = async (nome?: string, limite?: number, offset?: number) => {
-  const { data } = await apiController.get("funcionario", {
-    params: { nome, limite, offset }
-  });
-  setFuncionario(data.sort((a, b) => a.id - b.id));
-};
+      const pegarTodosFuncionarios = async (nome?: string, limite?: number, offset?: number,ativo?:boolean) => {
+        const { data } = await apiController.get("funcionario", {
+          params: { nome, limite, offset, ativo }
+        });
+        setFuncionario(data.sort((a, b) => a.id - b.id));
+      };
+
+      const pegarTodosFuncionarios2 = async (nome?: string, limite?: number, offset?: number,ativo?:boolean) => {
+        const { data } = await apiController.get("funcionario", {
+          params: { nome, limite, offset, ativo }
+        });
+        return data[0]
+      };
 
 
       const pegarUsuario = async () => {
@@ -89,10 +97,10 @@ import type { returnUser } from "@/schemas/usuario.schema"
           if (!valor) return
 
           const user = JSON.parse(valor)
-          const nome = user.nome
+          const id2 = user.id
 
           const { data } = await apiController.get("usuario", {
-            params: { nome }
+            params: { id:id2 }
           })
 
           setCliente(data)
@@ -101,53 +109,53 @@ import type { returnUser } from "@/schemas/usuario.schema"
         }
       }
 
-const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date): string[] => {
-  const horarios: string[] = [];
+  const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date): string[] => {
+    const horarios: string[] = [];
 
-  if (!diaSelecionado) return []; // protege contra undefined
+    if (!diaSelecionado) return []; // protege contra undefined
 
-  const inicio = horaInicio.slice(0, 5); 
-  const fim = horaFim.slice(0, 5);   
+    const inicio = horaInicio.slice(0, 5); 
+    const fim = horaFim.slice(0, 5);   
 
-  if (inicio === "00:00" && fim === "00:00") return []; // dia fechado
+    if (inicio === "00:00" && fim === "00:00") return []; // dia fechado
 
-  const [horaInicial, minutoInicial] = inicio.split(":").map(Number);
-  const [horaFinal, minutoFinal] = fim.split(":").map(Number);
+    const [horaInicial, minutoInicial] = inicio.split(":").map(Number);
+    const [horaFinal, minutoFinal] = fim.split(":").map(Number);
 
-  let hora = horaInicial;
-  let minuto = minutoInicial;
+    let hora = horaInicial;
+    let minuto = minutoInicial;
 
-  const agora = new Date();
-  const ehHoje =
-    diaSelecionado.getDate() === agora.getDate() &&
-    diaSelecionado.getMonth() === agora.getMonth() &&
-    diaSelecionado.getFullYear() === agora.getFullYear();
+    const agora = new Date();
+    const ehHoje =
+      diaSelecionado.getDate() === agora.getDate() &&
+      diaSelecionado.getMonth() === agora.getMonth() &&
+      diaSelecionado.getFullYear() === agora.getFullYear();
 
-  while (hora < horaFinal || (hora === horaFinal && minuto <= minutoFinal)) {
-    const horarioStr = `${hora.toString().padStart(2,"0")}:${minuto.toString().padStart(2,"0")}`;
+    while (hora < horaFinal || (hora === horaFinal && minuto <= minutoFinal)) {
+      const horarioStr = `${hora.toString().padStart(2,"0")}:${minuto.toString().padStart(2,"0")}`;
 
-    if (hora !== 12) {
-      if (ehHoje) {
-        if (hora > agora.getHours() || (hora === agora.getHours() && minuto > agora.getMinutes())) {
+      if (hora !== 12) {
+        if (ehHoje) {
+          if (hora > agora.getHours() || (hora === agora.getHours() && minuto > agora.getMinutes())) {
+            horarios.push(horarioStr);
+          }
+        } else {
           horarios.push(horarioStr);
         }
-      } else {
-        horarios.push(horarioStr);
+      }
+
+      minuto += 30;
+      if (minuto >= 60) {
+        minuto = 0;
+        hora++;
       }
     }
 
-    minuto += 30;
-    if (minuto >= 60) {
-      minuto = 0;
-      hora++;
-    }
-  }
-
-  return horarios;
-};
+    return horarios;
+  };
 
 
-      const abrirModal = (id: number) => {
+      const abrirModal = (id: string) => {
         
       setIdSelecionado(id);
       setIsModalOpen(prev => !prev);
@@ -158,7 +166,7 @@ const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date
       setSelectedTime("");
       };
 
-      const pegarAgendamentosDoDia = async (funcionarioId: number, dia: string, mes: string, ano: string) => {
+      const pegarAgendamentosDoDia = async (funcionarioId: string, dia: string, mes: string, ano: string) => {
         try {
           const { data } = await apiController.get("agenda", {
             params: { funcionario: funcionarioId, diaMes: dia, mes, ano } // mes deve ser "agosto", etc.
@@ -171,14 +179,14 @@ const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date
       };
 
       const atualizarHorariosDisponiveis = async (
-        funcionarioId: number,
+        funcionario: string,
         dia: string,
         mes: string,
         ano: string,
         horarios: string[]
       ): Promise<string[]> => {
         try {
-          const agendamentos = await pegarAgendamentosDoDia(funcionarioId, dia, mes, ano);
+          const agendamentos = await pegarAgendamentosDoDia(funcionario, dia, mes, ano);
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const horariosOcupados = agendamentos.map(a => a.hora.slice(0, 5));
@@ -201,7 +209,7 @@ const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date
               navigate("/login")
           } else {
               validateUser(token)
-              pegarTodosFuncionarios()
+              pegarTodosFuncionarios(undefined,undefined,undefined,true)
               pegarDiaDaSemana()
               pegarUsuario()
           }
@@ -247,7 +255,8 @@ const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date
           <div className={style.divImgBack}>
             <p className={style.para}>Muito além de um simples corte, nossa missão é transformar cada fio em uma expressão única de identidade e personalidade.</p>
             <button  className={style.button} onClick={() => {
-              abrirModal(item.id)
+              abrirModal(item.nome)
+              setAtual(item.id)
             }}>Agendar</button>
           </div>
         </div>
@@ -340,12 +349,35 @@ const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date
       <button 
         className="confirm" 
         onClick={async () => {
-          if (idSelecionado === null) {
+
+          const funcionarioVerificar = await pegarTodosFuncionarios2(idSelecionado)
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            let agendamentosUsuario: any[] = [];
+            try {
+              const { data } = await apiController.get("agenda", { 
+                params: { usuario: cliente[0].id, ativo: false} 
+              });
+              agendamentosUsuario = data;
+            } catch (error) {
+              console.error("Erro ao buscar agendamentos do usuário:", error);
+            }
+
+              if (agendamentosUsuario.length >= 3) {
+                toast.error("Limite de 3 agendamentos ativos atingido. Por favor, cancele um existente para agendar neste horário.");
+                return;
+              }
+
+          if (idSelecionado === undefined) {
             toast.error("Selecione um funcionário.");
             return;
           }
           if (cliente && cliente[0].ativo === false){
             toast.error("Você nao tem permissão para agendar entre em contato com a barbearia")
+            return;
+          }
+          if (!funcionarioVerificar|| funcionarioVerificar.ativo === false) {
+            toast.error("Funcionário não trabalha mais aqui.");
             return;
           }
           if (!selectedDate) {
@@ -357,7 +389,7 @@ const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date
             return;
           }
           try {
-            await agendar(idSelecionado, selectedTime, String(date), meses[mes], String(ano), meuValor.id, diaSemana);
+            await agendar(atual, selectedTime, String(date), meses[mes], String(ano), meuValor!.id, diaSemana);
             toast.success("Agendamento confirmado com sucesso!");
             
             setTimeout(() => {
@@ -367,7 +399,7 @@ const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date
             }, 3600); 
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (error) {
-            toast.error("Limite de 3 agendamentos atingido. Por favor, cancele um existente para agendar neste horário.");
+            toast.error("Erro ao agendar. Tente novamente.");
           }
         }}
       > Confirmar</button>

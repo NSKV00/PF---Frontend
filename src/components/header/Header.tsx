@@ -31,10 +31,10 @@ export const Header:React.FC=()=>{
           if (!valor) return
 
           const user = JSON.parse(valor)
-          const nome = user.nome
+          const id2 = user.id
 
           const { data } = await apiController.get("usuario", {
-            params: { nome }
+            params: { id:id2 }
           })
 
           setCliente(data)
@@ -132,7 +132,8 @@ export const Header:React.FC=()=>{
 
                     <button className={style.logoutBtn} 
                         onClick={() => {
-                            localStorage.clear();
+                            localStorage.removeItem("token");
+                            localStorage.removeItem("user");
                             window.location.href = "/login";
                         }}>
                     <span data-lucide="log-out"></span> Logout

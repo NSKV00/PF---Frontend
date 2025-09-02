@@ -340,6 +340,41 @@
   margin-top: 12px;
 }
 
+.botaoAgendamentos {
+  all: unset;
+  background-color: #3b82f6; 
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.botaoAgendamentos:hover {
+  background-color: #2563eb; 
+  transform: translateY(-1px);
+}
+
+.botaoAgendamentos:active {
+  transform: translateY(1px);
+}
+
+.botaoAgendamentos:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+  color: #ffffffa0;
+}
+
+
 
 @media (max-width: 360px) {
   .modalContent2 {

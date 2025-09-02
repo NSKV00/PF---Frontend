@@ -14,13 +14,14 @@ export const Funcionarios = () => {
 
   const [funcionario,setFuncionario] = useState<returnFuncionario[]>([])
   const [offset, setOffset] = useState(0)
-
-  const [atividade, setAtividade] = useState(false);
+  const [temProximo, setTemProximo] = useState(false);
+  const [atividade, setAtividade] = useState(true);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isModalOpen3, setIsModalOpen3] = useState(false);
   const [isModalOpen4, setIsModalOpen4] = useState(false);
   const [idSelecionado, setIdSelecionado] = useState(0)
-  const [nomeFuncionario, setNomeFuncionario] = useState("") // input texto
+  const [ativo, setAtivo] = useState<boolean>(false)
+  const [nomeFuncionario, setNomeFuncionario] = useState("")
   const [arquivoFuncionario, setArquivoFuncionario] = useState<File | null>(null)
 
 
@@ -48,10 +49,14 @@ export const Funcionarios = () => {
 
 
     
-    const pegarFuncionario = async (nome2?:string) => {
-        const { data } = await apiController.get("funcionario", {params: {nome:nome2}})
+    const pegarFuncionario = async (nome2?: string,ativo?:boolean,limite?:number,offset?:number) => {
+      const { data } = await apiController.get("funcionario", { params: { nome: nome2,ativo:ativo,limite:limite! + 1,offset:offset } });
 
-        setFuncionario(data)
+
+      const dataOrdenada = data.sort((a: any, b: any) => a.id - b.id);
+
+      setFuncionario(dataOrdenada.slice(0, limite));
+      setTemProximo(dataOrdenada.length > limite!);
     }
 
     const atualizarFuncionario = async (id?:number,arquivo?: File,nome?: string) => {
@@ -77,6 +82,11 @@ export const Funcionarios = () => {
         await apiController.post("funcionario",{nome})
     }
 
+    const atualizarFuncionario2 = async (id: number, body: { ativo: boolean }) => {
+      await apiController.patch(`funcionario/${id}`, body);
+    };
+
+
     
 
 
@@ -86,7 +96,7 @@ export const Funcionarios = () => {
               navigate("/login")
           } else {
               validateUser(token)
-              pegarFuncionario()
+              pegarFuncionario(undefined,true)
           }
       },[]) 
 
@@ -102,11 +112,11 @@ export const Funcionarios = () => {
             onChange={async (e) => { 
             const valor = e.target.value
             if (valor.trim() === "") {
-            pegarFuncionario()
+            pegarFuncionario(undefined,atividade)
             setOffset(0)
             return
         } else {
-            pegarFuncionario(valor)
+            pegarFuncionario(valor,atividade)
             return
         }
 
@@ -116,11 +126,12 @@ export const Funcionarios = () => {
             <select className={style.selecaoPesquisa} value={atividade ? "true" : "false"} onChange={async (e) => {
                 const valorAtivo = e.target.value === "true";
                 setAtividade(valorAtivo); 
+                pegarFuncionario(undefined,valorAtivo,8,offset)
                 setOffset(0);
 
             }}>
-            <option value="false">Empregado Ativo</option>
-            <option value="true">Contrato encerrado</option>
+            <option value="true">Empregado Ativo</option>
+            <option value="false">Contrato encerrado</option>
             </select>
             <button className={style.botaoPesquisa} onClick={() => setIsModalOpen4(true)}>
                 Criar Funcionario
@@ -151,8 +162,18 @@ export const Funcionarios = () => {
                     </button>
                     <button className={style.botaoExcluir} onClick={() => {
                         setIdSelecionado(item.id)
+                        setAtivo(item.ativo)
                         setIsModalOpen2(true)
                     }}>Trocar Status</button>
+                    <button
+                      className={style.botaoAgendamentos}
+                      onClick={() => {
+                        navigate("/agendamentos", {
+                          state: { opcao: "funcionario", valor: item.nome }
+                        });
+                      }}
+                    >Meus cortes
+                    </button>
                     </div>
                 </div>
                 )
@@ -160,12 +181,14 @@ export const Funcionarios = () => {
         </div>
         <div className={style.containerBotoes}>
         <button className={style.botaoNavegacao} disabled = {offset === 0} onClick={() => {
-          const novoOffset = offset - 16;
+          const novoOffset = offset - 8;
+          pegarFuncionario(undefined,true,8,novoOffset)
           setOffset(novoOffset);
 
         }}>Anterior</button>
-        <button className={style.botaoNavegacao} onClick={() => {
-          const novoOffset = offset + 16;
+        <button className={style.botaoNavegacao} disabled={!temProximo} onClick={() => {
+          const novoOffset = offset + 8;
+          pegarFuncionario(undefined,true,8,novoOffset)
           setOffset(novoOffset);
 
         }}>proximo</button>
@@ -178,10 +201,10 @@ export const Funcionarios = () => {
             <div className={style.modalContent2} onClick={(e) => e.stopPropagation()}>
               <button className={style.confirm} onClick={async () => {
 
-                toast.success("Agendamento cancelado com sucesso")
-                
-                setTimeout(async() => {
-
+                toast.success("Troca de status feita!")
+                  await atualizarFuncionario2(idSelecionado, { ativo: !ativo });
+                  setTimeout(async() => {
+                  pegarFuncionario(undefined,atividade,8,offset)  
                   setIsModalOpen2(false)
                 }, 3600);
               }}> Confirmar</button>
@@ -202,7 +225,7 @@ export const Funcionarios = () => {
                     toast.success("Funcionário editado com sucesso!"); 
                     setTimeout(() => 
                     {setIsModalOpen3(false)
-                    pegarFuncionario()}, 3600); }}>
+                    pegarFuncionario(undefined,atividade,8,offset)}, 3600); }}>
                         Confirmar
                 </button>
                 <button className={style.cancel} onClick={() => setIsModalOpen3(false)}>Cancelar</button>
@@ -218,11 +241,15 @@ export const Funcionarios = () => {
             <input type="text" placeholder="Nome" className={style.modalInput} onChange={(e) => setNomeFuncionario(e.target.value)} />
             <div className={style.modalButtons}>
                 <button className={style.confirm} onClick={async () => { 
+                    if(nomeFuncionario === ""){
+                      toast.error("Funcionario sem nome?")
+                      return 
+                    }
                     criarFuncionario(nomeFuncionario)
                     toast.success("Funcionário criado com sucesso!"); 
                     setTimeout(() => 
                     {setIsModalOpen4(false)
-                    pegarFuncionario()}, 3600); }}>
+                    pegarFuncionario(undefined,atividade,8,offset)}, 3600); }}>
                         Adicionar
                 </button>
                 <button className={style.cancel} onClick={() => setIsModalOpen4(false)}>Cancelar</button>

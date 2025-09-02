@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { Header } from "../../components/header/Header"
 import { Footer } from "../../components/footer/Footer"
 import style from "./style.module.css"
@@ -22,6 +22,10 @@ export const Agendamentos = () => {
   const [atividade, setAtividade] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [idSelecionado, setIdSelecionado] = useState(0)
+
+
+  const location = useLocation();
+  const state = location.state as { opcao?: "usuario" | "funcionario"; valor?: string };
 
 
     const mesesMap: Record<string, string> = {
@@ -108,17 +112,24 @@ const pegarAgendamento = async (opcao?: "usuario" | "funcionario", valor?: strin
     }
 
 
-        useEffect(()=>{
-          const token = localStorage.getItem("token")
-          if (!token){
-              navigate("/login")
-          } else {
-              validateUser(token)
-              pegarAgendamento(undefined,undefined,16,offset,atividade)
-              pegarUsuario()
-              pegarFuncionario()
-          }
-      },[]) 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login");
+        } else {
+            validateUser(token);
+            
+            if (state?.opcao && state?.valor) {
+            setOpcao(state.opcao);       // seta o select
+            pegarAgendamento(state.opcao, state.valor, 16, offset, atividade);
+            } else {
+            pegarAgendamento(undefined, undefined, 16, offset, atividade);
+            }
+
+            pegarUsuario();
+            pegarFuncionario();
+        }
+    }, []);
 
 
   return (
