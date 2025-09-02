@@ -4,8 +4,10 @@ import { createIcons, icons } from "lucide"
 import style from "./style.module.css"
 import "../../index.css"
 import Logo from "../../assets/Logo.png"
+import { useAuth } from "../../hooks/useAuth"
 
 export const Header:React.FC=()=>{
+    const { user } = useAuth()
 
     const [menuUOpen, setMenuUOpen] = useState(false)
     const menuURef = useRef<HTMLDivElement | null>(null)
@@ -55,7 +57,7 @@ export const Header:React.FC=()=>{
                 <Link to="/"><span data-lucide="home"></span>Home</Link>
                 <Link to="/agendamento"><span data-lucide="notebook-tabs"></span>Agendamento</Link>
                 <Link to="/servicos"><span data-lucide="square-scissors"></span>Serviços</Link>
-                <Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>
+                {user?.admin && (<Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>)}
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>
