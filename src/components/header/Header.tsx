@@ -1,17 +1,19 @@
 import { Link } from "react-router-dom"
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createIcons, icons } from "lucide"
 import style from "./style.module.css"
 import "../../index.css"
 import Logo from "../../assets/Logo.png"
-import { useAuth } from "../../hooks/useAuth"
+import { apiController } from "@/controller/api.controller"
+import { toast } from "react-toastify"
+import type { returnUser } from "@/schemas/usuario.schema"
 
 export const Header:React.FC=()=>{
-    const { user } = useAuth()
 
     const [menuUOpen, setMenuUOpen] = useState(false)
     const menuURef = useRef<HTMLDivElement | null>(null)
     const buttonURef = useRef<HTMLDivElement | null>(null)
+    const [cliente, setCliente] = useState<returnUser[]>([])
 
     const MenuLateral = ()=>{
         const overlay = document.getElementById("overlay")
@@ -22,6 +24,50 @@ export const Header:React.FC=()=>{
             overlay.style.display = menu.classList.contains(style.open) ? "block" : "none"
         }
     }
+
+      const pegarUsuario = async () => {
+        try {
+          const valor = localStorage.getItem("user")
+          if (!valor) return
+
+          const user = JSON.parse(valor)
+          const id2 = user.id
+
+          const { data } = await apiController.get("usuario", {
+            params: { id:id2 }
+          })
+
+          setCliente(data)
+        } catch (error) {
+          console.error("Erro ao buscar usuário:", error)
+        }
+      }
+
+    const handleFotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0]
+
+        try {
+        const formData = new FormData()
+        formData.append("imagem", file) 
+
+        const user = localStorage.getItem("user")
+        if (!user) return
+        const { id } = JSON.parse(user)
+
+        await apiController.patch(`usuario/${id}`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+
+        toast.success("Foto de perfil atualizada com sucesso!")
+        } catch (error) {
+        console.error("Erro ao atualizar foto:", error)
+        toast.error("Erro ao salvar foto, tente novamente.")
+        }
+    }
+    }
+
+      
 
     const toggleMenuUsuario = ()=>{
         setMenuUOpen(prev => !prev)
@@ -44,6 +90,7 @@ export const Header:React.FC=()=>{
 
     useEffect(()=>{
         createIcons({ icons })
+        pegarUsuario()
     }, [])
 
     return <>
@@ -57,7 +104,10 @@ export const Header:React.FC=()=>{
                 <Link to="/"><span data-lucide="home"></span>Home</Link>
                 <Link to="/agendamento"><span data-lucide="notebook-tabs"></span>Agendamento</Link>
                 <Link to="/servicos"><span data-lucide="square-scissors"></span>Serviços</Link>
-                {user?.admin && (<Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>)}
+                <Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>
+                <Link to="/agendamentos"><span data-lucide="clock"></span>Agendamentos</Link>
+                <Link to="/funcionarios"><span data-lucide="contact-round"></span>Funcionarios</Link>
+                <Link to="/semana"><span data-lucide="calendar"></span>Semana</Link>
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>
@@ -68,20 +118,29 @@ export const Header:React.FC=()=>{
                 <span className={style.menu} data-lucide="user"></span>
                 <div ref={menuURef} className={`${style.MenuU} ${menuUOpen ? style.open : ""}`}>
                     <div className={style.profileSection}>
-                        <img src="/default-profile.png" alt="Foto de Perfil" className={style.profilePic} />
+                        <img src={cliente[0]?.imagem ? `data:image/png;base64,${cliente[0].imagem}` : "/default-profile.png"}  alt="Foto de Perfil" className={style.profilePic} />
                         <label htmlFor="uploadFoto" className={style.changePhoto}>
                             Trocar Foto
                         </label>
-                        <input id="uploadFoto" type="file" accept="image/*" style={{ display: "none" }} />
+                        <input id="uploadFoto" type="file" accept="image/*" style={{ display: "none" }} onChange={ async(e) => {
+                            await handleFotoChange(e)
+                            await pegarUsuario()
+                        }
+                            }/>
                     </div>
 
                     <Link className={style.magent} to="/meusAgendamentos">Meus Agendamentos</Link>
 
-                    <button className={style.logoutBtn}>
-                        <span data-lucide="log-out"></span> Logout
-                    </button>
-                </div>
+                    <button className={style.logoutBtn} 
+                        onClick={() => {
+                            localStorage.removeItem("token");
+                            localStorage.removeItem("user");
+                            window.location.href = "/login";
+                        }}>
+                    <span data-lucide="log-out"></span> Logout
+                </button>
             </div>
-        </header>
-    </>
+        </div>
+    </header>
+</>
 }
