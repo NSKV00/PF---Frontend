@@ -72,7 +72,7 @@ export const Clientes = () => {
               navigate("/login")
           } else {
               validateUser(token)
-              pegarCliente(undefined,undefined,8,offset)
+              pegarCliente(undefined,undefined,12,offset)
           }
       },[]) 
 
@@ -89,15 +89,15 @@ export const Clientes = () => {
             const valor = e.target.value
             setValor(e.target.value)
             if (valor.trim() === "") {
-            pegarCliente(undefined,undefined,8,0)
+            pegarCliente(undefined,undefined,12,0)
             setOffset(0)
             return
         }
-           await pegarCliente(opcao,valor,8,0)
+           await pegarCliente(opcao,valor,12,0)
             }
         }
             />
-            <select className={style.selecaoPesquisa} value={opcao} onChange={(e) => setOpcao(e.target.value as any)}>
+            <select className={style.selecaoPesquisa} value={opcao} onChange={(e) => {setOpcao(e.target.value as any)}}>
             <option value="nome">Nome</option>
             <option value="tele">Telefone</option>
             <option value="email">E-mail</option>
@@ -126,14 +126,14 @@ export const Clientes = () => {
         </div>
         <div className={style.containerBotoes}>
         <button className={style.botaoNavegacao} disabled = {offset === 0} onClick={() => {
-          const novoOffset = offset - 8;
+          const novoOffset = offset - 12;
           setOffset(novoOffset);
-          pegarCliente(undefined, undefined, 8, novoOffset);
+          pegarCliente(undefined, valor, 12, novoOffset);
         }}>Anterior</button>
         <button className={style.botaoNavegacao} disabled={!temProximo} onClick={() => {
-          const novoOffset = offset + 8;
+          const novoOffset = offset + 12;
           setOffset(novoOffset);
-          pegarCliente(undefined, undefined, 8, novoOffset);
+          pegarCliente(undefined, valor, 12, novoOffset);
         }}>proximo</button>
         </div>
 
@@ -144,9 +144,9 @@ export const Clientes = () => {
             <div className={style.modalContent2} onClick={(e) => e.stopPropagation()}>
               <button className={style.confirm} onClick={async () => {
                 await trocarAtivo(idSelecionado)
-                pegarCliente(opcao,valor,8,0)
+                pegarCliente(opcao,valor,12,offset)
                 toast.success("Status atualizado com sucesso")
-
+                
                 setTimeout(() => {
                   setIsModalOpen2(false)
                 }, 100);

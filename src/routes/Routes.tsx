@@ -9,6 +9,7 @@ import { ProtectedRoutes } from "./ProtectedRoutes"
 import { MeusAgendamentos } from "../pages/Magendamentos/MeusAgendamentos"
 import { Agendamentos } from "@/pages/agendamentos/agendamentos"
 import { Funcionarios } from "@/pages/funcionarios/funcionarios"
+import { Semana } from "@/pages/diaSemanas/ddsemana"
 
 export function MainRoutes() {
 
@@ -22,5 +23,6 @@ export function MainRoutes() {
         <Route path="/cadastro" element={<Cadastro/>} />
         <Route path="/agendamentos" element={<Agendamentos/>} />
         <Route path="/funcionarios" element={<Funcionarios/>} />
+        <Route path="/semana" element={<Semana/>} />
     </Routes>
 }

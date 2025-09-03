@@ -80,6 +80,8 @@ import type { returnUser } from "@/schemas/usuario.schema"
         const { data } = await apiController.get("funcionario", {
           params: { nome, limite, offset, ativo }
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         setFuncionario(data.sort((a, b) => a.id - b.id));
       };
 
@@ -288,12 +290,13 @@ import type { returnUser } from "@/schemas/usuario.schema"
 
             const diaSemanaConfig = ddsemana.find(d => d.id === ds);
 
-            if (!diaSemanaConfig || (diaSemanaConfig.horaInicial.slice(0,5) === "00:00" && diaSemanaConfig.horaFinal.slice(0,5) === "00:00")) {
-              setTimes([]);
-              setSelectedTime("");
-              setSelectedDate(undefined)
-              return;
-            }
+              if (!diaSemanaConfig || (diaSemanaConfig.horaInicial.slice(0,5) === "00:00" && diaSemanaConfig.horaFinal.slice(0,5) === "00:00")) {
+                setTimes([]);
+                setSelectedTime("");
+                setSelectedDate(undefined);
+                toast.info("Este dia está fechado."); 
+                return;
+              }
 
             const todosHorarios = gerarHorarios(diaSemanaConfig.horaInicial, diaSemanaConfig.horaFinal, newDate);
 

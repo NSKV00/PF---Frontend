@@ -22,6 +22,7 @@ export const Funcionarios = () => {
   const [idSelecionado, setIdSelecionado] = useState(0)
   const [ativo, setAtivo] = useState<boolean>(false)
   const [nomeFuncionario, setNomeFuncionario] = useState("")
+  const [valor2, setValor2] = useState("")
   const [arquivoFuncionario, setArquivoFuncionario] = useState<File | null>(null)
 
 
@@ -96,7 +97,7 @@ export const Funcionarios = () => {
               navigate("/login")
           } else {
               validateUser(token)
-              pegarFuncionario(undefined,true)
+              pegarFuncionario(undefined,true,12,0)
           }
       },[]) 
 
@@ -111,12 +112,13 @@ export const Funcionarios = () => {
             placeholder="Digite para pesquisar..."  
             onChange={async (e) => { 
             const valor = e.target.value
+            setValor2(valor)
             if (valor.trim() === "") {
-            pegarFuncionario(undefined,atividade)
+            pegarFuncionario(undefined,atividade,12,0)
             setOffset(0)
             return
         } else {
-            pegarFuncionario(valor,atividade)
+            pegarFuncionario(valor,atividade,12,0)
             return
         }
 
@@ -126,7 +128,7 @@ export const Funcionarios = () => {
             <select className={style.selecaoPesquisa} value={atividade ? "true" : "false"} onChange={async (e) => {
                 const valorAtivo = e.target.value === "true";
                 setAtividade(valorAtivo); 
-                pegarFuncionario(undefined,valorAtivo,8,offset)
+                pegarFuncionario(valor2,valorAtivo,12,offset)
                 setOffset(0);
 
             }}>
@@ -181,14 +183,14 @@ export const Funcionarios = () => {
         </div>
         <div className={style.containerBotoes}>
         <button className={style.botaoNavegacao} disabled = {offset === 0} onClick={() => {
-          const novoOffset = offset - 8;
-          pegarFuncionario(undefined,true,8,novoOffset)
+          const novoOffset = offset - 12;
+          pegarFuncionario(valor2,true,12,novoOffset)
           setOffset(novoOffset);
 
         }}>Anterior</button>
         <button className={style.botaoNavegacao} disabled={!temProximo} onClick={() => {
-          const novoOffset = offset + 8;
-          pegarFuncionario(undefined,true,8,novoOffset)
+          const novoOffset = offset + 12;
+          pegarFuncionario(valor2,true,12,novoOffset)
           setOffset(novoOffset);
 
         }}>proximo</button>
@@ -204,7 +206,7 @@ export const Funcionarios = () => {
                 toast.success("Troca de status feita!")
                   await atualizarFuncionario2(idSelecionado, { ativo: !ativo });
                   setTimeout(async() => {
-                  pegarFuncionario(undefined,atividade,8,offset)  
+                  pegarFuncionario(valor2,atividade,12,offset)  
                   setIsModalOpen2(false)
                 }, 3600);
               }}> Confirmar</button>
@@ -225,7 +227,7 @@ export const Funcionarios = () => {
                     toast.success("Funcionário editado com sucesso!"); 
                     setTimeout(() => 
                     {setIsModalOpen3(false)
-                    pegarFuncionario(undefined,atividade,8,offset)}, 3600); }}>
+                    pegarFuncionario(valor2,atividade,12,offset)}, 3600); }}>
                         Confirmar
                 </button>
                 <button className={style.cancel} onClick={() => setIsModalOpen3(false)}>Cancelar</button>
@@ -249,7 +251,7 @@ export const Funcionarios = () => {
                     toast.success("Funcionário criado com sucesso!"); 
                     setTimeout(() => 
                     {setIsModalOpen4(false)
-                    pegarFuncionario(undefined,atividade,8,offset)}, 3600); }}>
+                    pegarFuncionario(valor2,atividade,12,offset)}, 3600); }}>
                         Adicionar
                 </button>
                 <button className={style.cancel} onClick={() => setIsModalOpen4(false)}>Cancelar</button>

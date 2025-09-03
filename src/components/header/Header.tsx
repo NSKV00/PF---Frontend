@@ -105,8 +105,9 @@ export const Header:React.FC=()=>{
                 <Link to="/agendamento"><span data-lucide="notebook-tabs"></span>Agendamento</Link>
                 <Link to="/servicos"><span data-lucide="square-scissors"></span>Serviços</Link>
                 <Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>
-                <Link to="/agendamentos"><span data-lucide="calendar-days"></span>Agendamentos</Link>
+                <Link to="/agendamentos"><span data-lucide="clock"></span>Agendamentos</Link>
                 <Link to="/funcionarios"><span data-lucide="contact-round"></span>Funcionarios</Link>
+                <Link to="/semana"><span data-lucide="calendar"></span>Semana</Link>
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>

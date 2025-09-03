@@ -110,10 +110,11 @@
 
 .containerCartoes {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(1, 1fr); 
     justify-items: center;         
     padding: 20px;
     gap:10px;
+    border-radius: 24px;
 }
 
 
@@ -285,6 +286,53 @@
   transform: translateY(-1px);
 }
 
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #111827;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
+  font-size: 1rem;
+  color: #111827;
+  placeholder-color: black;
+}
+
+.modalInput::placeholder {
+    color: black;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.botaoEditar {
+    all: unset;
+    background-color: #f7ed97ff;
+    color: #aaa11eff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.3s ease;
+}
+
 @media (max-width: 360px) {
   .modalContent2 {
     min-width: 90%;
@@ -294,7 +342,7 @@
 }
 
 
-@media (max-width: 660px) {
+@media (max-width: 380px) {
   .containerPrincipal {
     flex-direction: column;
     width: 90%;

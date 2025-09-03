@@ -16,8 +16,11 @@ export const Agendamentos = () => {
   const [agenda,setAgenda] = useState<returnAgenda[]>([])
   const [cliente,setCliente] = useState<returnUser[]>([])
   const [funcionario,setFuncionario] = useState<returnFuncionario[]>([])
-  const [opcao, setOpcao] = useState<"usuario" | "funcionario" >("usuario");
+  const [opcao, setOpcao] = useState<"usuario2" | "funcionario" >("usuario2");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [opcao2, setOpcao2] = useState<"usuario" | "funcionario" >("usuario");
   const [offset, setOffset] = useState(0)
+  const [valor, setValor] = useState("")
   const [temProximo, setTemProximo] = useState(false);
   const [atividade, setAtividade] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
@@ -62,38 +65,81 @@ export const Agendamentos = () => {
           }
       }
 
-const pegarAgendamento = async (opcao?: "usuario" | "funcionario", valor?: string, limite2?: number, offset?: number, ativo?: boolean) => {
+const pegarAgendamento = async (
+  opcao?: "usuario2" | "funcionario",
+  valor?: string,
+  limite2: number = 12,
+  offset2: number = 0,
+  ativo?: boolean
+) => {
+  try {
     const params: Record<string, any> = {};
     if (opcao && valor) params[opcao] = valor;
-    if (limite2) params.limite = limite2 + 1;
-    if (offset) params.offset = offset;
-    if (ativo !== undefined) params.ativo = ativo;
-
-    console.log(params);
-
-    const { data } = await apiController.get("agenda",{params})
+    params.limite = 1000; 
+    const { data } = await apiController.get("agenda", { params });
 
     const parseDate = (item: any) => {
-        const dia = String(item.diaMes).padStart(2, "0");
-        const mes = mesesMap[item.mes.toLowerCase()] ?? "01";
-        const ano = item.ano;
-        const hora = item.hora || "00:00:00";
-        return new Date(`${ano}-${mes}-${dia}T${hora}`);
+      const dia = String(item.diaMes).padStart(2, "0");
+      const mes = mesesMap[item.mes.toLowerCase()] ?? "01";
+      const ano = item.ano;
+      const hora = item.hora || "00:00:00";
+      return new Date(`${ano}-${mes}-${dia}T${hora}`);
     };
 
     const agora = new Date();
     const dataComDate = data.map((item: any) => ({ ...item, dataObj: parseDate(item) }));
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const filtrados = ativo ? dataComDate : dataComDate.filter(item => item.dataObj >= agora);
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const dataOrdenada = filtrados.sort((a,b) => a.dataObj.getTime() - b.dataObj.getTime());
-    const limite = limite2 ?? dataOrdenada.length;
+    const dataOrdenada = filtrados.sort((a, b) => a.dataObj.getTime() - b.dataObj.getTime());
 
-    setAgenda(dataOrdenada.slice(0,limite));
-    setTemProximo(filtrados.length > limite);
+   
+    setAgenda(dataOrdenada.slice(offset2, offset2 + limite2));
+    setTemProximo(dataOrdenada.length > offset2 + limite2);
+
+  } catch (error) {
+    console.error("Erro ao pegar agendamentos:", error);
+    toast.error("Erro ao carregar agendamentos");
+  }
 };
+
+
+        const pegarAgendamento2 = async (opcao?: "usuario" | "funcionario", valor?: string, limite2?: number, offset?: number, ativo?: boolean) => {
+        const params: Record<string, any> = {};
+        if (opcao && valor) params[opcao] = valor;
+        if (limite2) params.limite = limite2 + 1;
+        if (offset) params.offset = offset;
+        if (ativo !== undefined) params.ativo = ativo;
+
+        console.log(params);
+
+        const { data } = await apiController.get("agenda",{params})
+
+        const parseDate = (item: any) => {
+            const dia = String(item.diaMes).padStart(2, "0");
+            const mes = mesesMap[item.mes.toLowerCase()] ?? "01";
+            const ano = item.ano;
+            const hora = item.hora || "00:00:00";
+            return new Date(`${ano}-${mes}-${dia}T${hora}`);
+        };
+
+        const agora = new Date();
+        const dataComDate = data.map((item: any) => ({ ...item, dataObj: parseDate(item) }));
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const filtrados = ativo ? dataComDate : dataComDate.filter(item => item.dataObj >= agora);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const dataOrdenada = filtrados.sort((a,b) => a.dataObj.getTime() - b.dataObj.getTime());
+        const limite = limite2 ?? dataOrdenada.length;
+
+        setAgenda(dataOrdenada.slice(0,limite));
+        setTemProximo(filtrados.length > limite);
+    };
 
     const pegarUsuario = async () => {
         const { data } = await apiController.get("usuario")
@@ -120,10 +166,10 @@ const pegarAgendamento = async (opcao?: "usuario" | "funcionario", valor?: strin
             validateUser(token);
             
             if (state?.opcao && state?.valor) {
-            setOpcao(state.opcao);       // seta o select
-            pegarAgendamento(state.opcao, state.valor, 16, offset, atividade);
+            setOpcao2(state.opcao);       
+            pegarAgendamento2(state.opcao, state.valor, 12, offset, atividade);
             } else {
-            pegarAgendamento(undefined, undefined, 16, offset, atividade);
+            pegarAgendamento(undefined, undefined, 12, offset, atividade);
             }
 
             pegarUsuario();
@@ -142,24 +188,25 @@ const pegarAgendamento = async (opcao?: "usuario" | "funcionario", valor?: strin
             placeholder="Digite para pesquisar..."  
             onChange={async (e) => { 
             const valor = e.target.value
+            setValor(valor)
             if (valor.trim() === "") {
-            pegarAgendamento(undefined,undefined,16,0,atividade)
+            pegarAgendamento(undefined,undefined,12,0,atividade)
             setOffset(0)
             return
         }
-           await pegarAgendamento(opcao,valor,16,0,atividade)
+           await pegarAgendamento(opcao,valor,12,0,atividade)
             }
         }
             />
             <select className={style.selecaoPesquisa} value={opcao} onChange={(e) => setOpcao(e.target.value as any)}>
-            <option value="usuario">Cliente</option>
+            <option value="usuario2">Cliente</option>
             <option value="funcionario">Funcionario</option>
             </select>
             <select className={style.selecaoPesquisa} value={atividade ? "true" : "false"} onChange={async (e) => {
                 const valorAtivo = e.target.value === "true";
                 setAtividade(valorAtivo); 
                 setOffset(0);
-                await pegarAgendamento(opcao, undefined, 16, 0, valorAtivo);
+                await pegarAgendamento(opcao, valor, 12, 0, valorAtivo);
             }}>
             <option value="false">Não finalizado</option>
             <option value="true">Finalizado</option>
@@ -197,34 +244,38 @@ const pegarAgendamento = async (opcao?: "usuario" | "funcionario", valor?: strin
         </div>
         <div className={style.containerBotoes}>
         <button className={style.botaoNavegacao} disabled = {offset === 0} onClick={() => {
-          const novoOffset = offset - 16;
+          const novoOffset = offset - 12;
           setOffset(novoOffset);
-          pegarAgendamento(undefined, undefined, 16, novoOffset,atividade);
+          pegarAgendamento(undefined, valor, 12, novoOffset,atividade);
         }}>Anterior</button>
         <button className={style.botaoNavegacao} disabled={!temProximo} onClick={() => {
-          const novoOffset = offset + 16;
+          const novoOffset = offset + 12;
           setOffset(novoOffset);
-          pegarAgendamento(undefined, undefined, 16, novoOffset,atividade);
+          pegarAgendamento(undefined, valor, 12, novoOffset,atividade);
         }}>proximo</button>
         </div>
 
         </main>
 
         {isModalOpen2 && (
-          <div className={style.modalOverlay2} onClick={() => setIsModalOpen2(false)}>
+        <div className={style.modalOverlay2} onClick={() => setIsModalOpen2(false)}>
             <div className={style.modalContent2} onClick={(e) => e.stopPropagation()}>
-              <button className={style.confirm} onClick={async () => {
+            <button className={style.confirm} onClick={async () => {
                 await cancelarAgendamento(idSelecionado)
                 toast.success("Agendamento cancelado com sucesso")
+
                 
-                setTimeout(async() => {
-                  await pegarAgendamento(undefined,undefined,16,0,atividade)
-                  setIsModalOpen2(false)
-                }, 3600);
-              }}> Confirmar</button>
-              <button className={style.cancel} onClick={() => setIsModalOpen2(false)}>Cancelar</button>
+                const novoOffset = (agenda.length === 1 && offset >= 12) ? offset - 12 : offset;
+
+                setTimeout(async () => {
+                await pegarAgendamento(undefined, valor, 12, novoOffset, atividade)
+                setOffset(novoOffset)
+                setIsModalOpen2(false)
+                }, 3600); 
+            }}> Confirmar</button>
+            <button className={style.cancel} onClick={() => setIsModalOpen2(false)}>Cancelar</button>
             </div>
-          </div>
+        </div>
         )}
 
       <Footer />
