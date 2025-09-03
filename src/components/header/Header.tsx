@@ -142,7 +142,9 @@ export const Header:React.FC=()=>{
                             window.location.href = "/";
                         }}>
                     <span data-lucide="log-out"></span> Logout
-                </button>: <button className={style.loginBtn}>
+                </button>: <button className={style.loginBtn} onClick={()=>{
+                    window.location.href = "/login"
+                    }}>
                     <span data-lucide="log-in"></span>Login
                 </button>}
             </div>
