@@ -67,7 +67,7 @@ export const Login = () => {
 
         <button type="submit">Entrar</button>
         <div>
-          <span className={style.span}>Não tem uma conta?</span>
+          
           <Link className={style.login} to={"/cadastro"}>
             Criar conta
           </Link>

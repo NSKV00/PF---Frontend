@@ -1,5 +1,5 @@
 main{
-  min-height: 100vh;
+  min-height: 200vh;
   background-color: rgb(24, 24, 24);
 }
 
@@ -172,13 +172,22 @@ main{
 }
 
 @media (max-width: 600px) {
+  .header{
+    padding: 2.2rem 0.6rem ;
+  }
   .Logo{
     top:0.8rem;
     height:110%;
     padding-left: 0%;
   }
   .MenuLateral svg{
-    height: 2.5rem;
-    width:2.5rem;
+    height: 2rem;
+    width:2rem;
+  }
+  .Menu{
+    width: 200px;
+  }
+  .Menu a{
+    font-size: 1rem;
   }
 }

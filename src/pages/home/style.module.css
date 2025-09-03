@@ -10,13 +10,14 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   color: #fff;
   background-size: cover;
   background-position: center;
   text-align: center;
   padding: 6rem 2rem;
   animation: fadeIn 1.5s ease-in;
+  width: 100%;
 }
 .heroButtons {
   display: flex;
@@ -50,7 +51,7 @@
 }
 /* ---------- Section Genérica ---------- */
 .sobre {
-  height: 60vh;
+  min-height: 60vh;
   align-items: center;
   padding: 4rem 2rem;
   max-width: 1200px;
@@ -125,7 +126,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 .galeriaGrid {
   display: flex;
@@ -161,27 +162,41 @@
     transform: translateY(0);
   }
 }
-@media (max-width: 600px) {
-    .texto{
-        font-size: 1.0rem;
-        padding-left: 4px;
+@media (max-width: 900px) {
+  .heroButtons{
+        gap: 2rem;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
     }
-    .Historia{
-        font-size: 1.6rem;
-    }
-    .Home{
-        padding-top: 40px;
+    .galeriaGrid{
+        flex-direction: column;
+        gap: 2rem;
+        font-size: 1rem;
     }
 }
 @media (max-width: 600px) {
-    .texto{
-        font-size: 1.0rem;
-        padding-left: 4px;
+    .sobre{
+        min-height:30vh;
+        padding: 3.5rem 1.5rem;
+        max-width: 800px;
+        font-size: 0.8rem;
     }
-    .Historia{
-        font-size: 1.6rem;
+    .heroButtons{
+        gap: 0.8rem;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
     }
-    .Home{
-        padding-top: 40px;
+    .galeriaGrid{
+        flex-direction: column;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+    }
+    .sobre h2{
+        font-size: 1.5rem;
+    }
+    .depoimentos blockquote{
+        font-size: 0.8rem;
+        padding: 1rem;
+        margin: 0.8rem;
     }
 }

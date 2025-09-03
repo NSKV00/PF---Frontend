@@ -136,7 +136,7 @@ export const Cadastro = () => {
 
         <button type="submit">Cadastrar-se</button>
         <div>
-          <span className={style.span}>Já tem uma conta?</span>
+          
           <Link className={style.login} to={"/login"}>
             Fazer login
           </Link>

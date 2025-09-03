@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react"
 import { Scissors, Calendar, Star, Phone } from "lucide-react";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom"
 import { Header } from "../../components/header/Header"
 import { Footer } from "../../components/footer/Footer"
