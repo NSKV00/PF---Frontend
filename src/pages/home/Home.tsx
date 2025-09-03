@@ -1,21 +1,49 @@
-import { useContext, useEffect } from "react"
-import { Scissors, Calendar, Star, Phone } from "lucide-react";
-import { useNavigate } from "react-router-dom"
-import { Header } from "../../components/header/Header"
-import { Footer } from "../../components/footer/Footer"
-import HeroLogo from "../../assets/HeroLogo.png"
-import style from "./style.module.css"
+import { useNavigate } from "react-router-dom";
+import { Header } from "../../components/header/Header";
+import { Footer } from "../../components/footer/Footer";
+import HeroLogo from "../../assets/HeroLogo.png";
+import style from "./style.module.css";
+import { useEffect } from "react";
+import { apiController } from "@/controller/api.controller";
 
-export const Home = ()=>{
-    const navigate = useNavigate()
+export const Home = () => {
+   const navigate = useNavigate();
+
+   const validateUser = async(token:string)=>{
+             try {
+                 const res = await apiController.get("usuario/retrieve",{
+                     headers:{
+                         Authorization: `Bearer ${token}`
+                     }
+                 })
+                 if (res.data){
+                     localStorage.setItem("user", JSON.stringify(res.data))
+                 }
+             // eslint-disable-next-line @typescript-eslint/no-unused-vars
+             } catch (error){
+                return
+             }
+         }
+
+    useEffect(() => {
+      const token = localStorage.getItem("token")
+          if (!token){
+              navigate("/login")
+          } else {
+              validateUser(token)
+          }
+    },[])
 
   return (
     <>
-
-    <Header></Header>
+      <Header />
 
       {/* Hero */}
-      <section style={{backgroundImage:`url(${HeroLogo})`}} id="hero" className={style.hero}>
+      <section
+        style={{ backgroundImage: `url(${HeroLogo})` }}
+        id="hero"
+        className={style.hero}
+      >
         <div>
           <div className={style.heroButtons}>
             <p className={style.btnRed}>Tradição, precisão e estilo</p>
@@ -29,9 +57,9 @@ export const Home = ()=>{
       <section id="sobre" className={style.sobre}>
         <h2>Sobre nós</h2>
         <p>
-          Na GRAVUS, cada corte é um ritual. Unimos técnicas tradicionais
-          com tendências atuais para entregar uma experiência completa:
-          atendimento de ponta, ambiente confortável e produtos premium.
+          Na GRAVUS, cada corte é um ritual. Unimos técnicas tradicionais com
+          tendências atuais para entregar uma experiência completa: atendimento
+          de ponta, ambiente confortável e produtos premium.
         </p>
         <ul className={style.features}>
           <li>+10 anos de experiência</li>
@@ -45,10 +73,12 @@ export const Home = ()=>{
       <section id="depoimentos" className={style.depoimentos}>
         <h2>O que falam da GRAVUS</h2>
         <blockquote>
-          “Atendimento impecável e corte perfeito. Virei cliente!” — <cite>Henrique M.</cite>
+          “Atendimento impecável e corte perfeito. Virei cliente!” —{" "}
+          <cite>Henrique M.</cite>
         </blockquote>
         <blockquote>
-          “A barba com toalha quente é outra experiência.” — <cite>Pedro S.</cite>
+          “A barba com toalha quente é outra experiência.” —{" "}
+          <cite>Pedro S.</cite>
         </blockquote>
       </section>
 
@@ -63,7 +93,7 @@ export const Home = ()=>{
         </div>
       </section>
 
-      <Footer></Footer>
+      <Footer />
     </>
   );
-}
+};

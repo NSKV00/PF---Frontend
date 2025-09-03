@@ -4,6 +4,7 @@ main{
 }
 
 .header {
+  z-index: 999;
   background-color: #d9bba0ee;
   display: flex;
   justify-content: flex-end;

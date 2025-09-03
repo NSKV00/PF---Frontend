@@ -33,6 +33,7 @@ export const Login = () => {
       await login(email, password)
       toast.success("Login realizado com sucesso!")
       setTimeout(() => navigate("/"), 2000)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message)
