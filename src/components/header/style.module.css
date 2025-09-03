@@ -97,24 +97,72 @@ main {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   display: none;
   flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  gap: 1rem;
+  align-items: stretch;
+  gap: 0.8rem;
   min-width: 220px;
+  width: max-content;
   z-index: 99;
   opacity: 0;
   transform: translateY(-10px);
   transition: all 0.3s ease;
 }
-.MenuU .magent {
-  text-decoration: none;
-  color: #1e3a8a;
-  font-weight: 600;
-}
 .MenuU.open {
   display: flex;
   opacity: 1;
   transform: translateY(0);
+}
+.MenuU a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #1e3a8a;
+  transition: background 0.2s ease;
+}
+.MenuU a:hover {
+  background: rgba(30, 58, 138, 0.08);
+}
+.MenuU a svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.MenuU .logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-weight: 600;
+  color: #b91c1c;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.MenuU .logoutBtn:hover {
+  background: rgba(185, 28, 28, 0.08);
+}
+.MenuU .loginBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-weight: 600;
+  color: #1e3a8a;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.MenuU .loginBtn:hover {
+  background: rgba(30, 58, 138, 0.08);
 }
 
 .profileSection {

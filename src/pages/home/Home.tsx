@@ -27,10 +27,8 @@ export const Home = () => {
 
     useEffect(() => {
       const token = localStorage.getItem("token")
-          if (!token){
-              navigate("/login")
-          } else {
-              validateUser(token)
+          if (token) {
+            validateUser(token)
           }
     },[])
 

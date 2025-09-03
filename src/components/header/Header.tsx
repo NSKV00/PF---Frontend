@@ -7,8 +7,10 @@ import Logo from "../../assets/Logo.png"
 import { apiController } from "@/controller/api.controller"
 import { toast } from "react-toastify"
 import type { returnUser } from "@/schemas/usuario.schema"
+import { useAuth } from "../../hooks/useAuth"
 
 export const Header:React.FC=()=>{
+    const { user } = useAuth()
 
     const [menuUOpen, setMenuUOpen] = useState(false)
     const menuURef = useRef<HTMLDivElement | null>(null)
@@ -91,7 +93,7 @@ export const Header:React.FC=()=>{
     useEffect(()=>{
         createIcons({ icons })
         pegarUsuario()
-    }, [])
+    }, [menuUOpen, user])
 
     return <>
         <header className={style.header}>
@@ -104,10 +106,6 @@ export const Header:React.FC=()=>{
                 <Link to="/"><span data-lucide="home"></span>Home</Link>
                 <Link to="/agendamento"><span data-lucide="notebook-tabs"></span>Agendamento</Link>
                 <Link to="/servicos"><span data-lucide="square-scissors"></span>Serviços</Link>
-                <Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>
-                <Link to="/agendamentos"><span data-lucide="clock"></span>Agendamentos</Link>
-                <Link to="/funcionarios"><span data-lucide="contact-round"></span>Funcionarios</Link>
-                <Link to="/semana"><span data-lucide="calendar"></span>Semana</Link>
             </div>
 
             <div className={style.MenuLateral} onClick={MenuLateral}>
@@ -117,7 +115,7 @@ export const Header:React.FC=()=>{
             <div ref={buttonURef} className={style.MenuUsuario} onClick={toggleMenuUsuario}>
                 <span className={style.menu} data-lucide="user"></span>
                 <div ref={menuURef} className={`${style.MenuU} ${menuUOpen ? style.open : ""}`}>
-                    <div className={style.profileSection}>
+                    {user?.ativo && (<div className={style.profileSection}>
                         <img src={cliente[0]?.imagem ? `data:image/png;base64,${cliente[0].imagem}` : "/default-profile.png"}  alt="Foto de Perfil" className={style.profilePic} />
                         <label htmlFor="uploadFoto" className={style.changePhoto}>
                             Trocar Foto
@@ -127,18 +125,26 @@ export const Header:React.FC=()=>{
                             await pegarUsuario()
                         }
                             }/>
-                    </div>
+                    </div>)}
 
-                    <Link className={style.magent} to="/meusAgendamentos">Meus Agendamentos</Link>
+                    {user?.ativo && (<Link to="/meusAgendamentos"><span data-lucide="calendar-check"></span>Meus Agendamentos</Link>)}
 
-                    <button className={style.logoutBtn} 
+                    {user?.admin && (<Link to="/clientes"><span data-lucide="users"></span>Clientes</Link>)}
+                    {user?.admin && (<Link to="/agendamentos"><span data-lucide="clock"></span>Agendamentos</Link>)}
+                    {user?.admin && (<Link to="/funcionarios"><span data-lucide="contact-round"></span>Funcionarios</Link>)}
+                    {user?.admin && (<Link to="/semana"><span data-lucide="calendar"></span>Semana</Link>)}
+
+
+                    {user ?<button className={style.logoutBtn} 
                         onClick={() => {
                             localStorage.removeItem("token");
                             localStorage.removeItem("user");
-                            window.location.href = "/login";
+                            window.location.href = "/";
                         }}>
                     <span data-lucide="log-out"></span> Logout
-                </button>
+                </button>: <button className={style.loginBtn}>
+                    <span data-lucide="log-in"></span>Login
+                </button>}
             </div>
         </div>
     </header>
