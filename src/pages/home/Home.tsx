@@ -36,12 +36,7 @@ export const Home = () => {
     <>
       <Header />
 
-      {/* Hero */}
-      <section
-        style={{ backgroundImage: `url(${HeroLogo})` }}
-        id="hero"
-        className={style.hero}
-      >
+      <section style={{ backgroundImage: `url(${HeroLogo})` }} id="hero" className={style.hero}>
         <div>
           <div className={style.heroButtons}>
             <p className={style.btnRed}>Tradição, precisão e estilo</p>
@@ -51,7 +46,6 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Sobre */}
       <section id="sobre" className={style.sobre}>
         <h2>Sobre nós</h2>
         <p>
@@ -67,7 +61,6 @@ export const Home = () => {
         </ul>
       </section>
 
-      {/* Depoimentos */}
       <section id="depoimentos" className={style.depoimentos}>
         <h2>O que falam da GRAVUS</h2>
         <blockquote>
@@ -80,7 +73,6 @@ export const Home = () => {
         </blockquote>
       </section>
 
-      {/* Galeria */}
       <section id="galeria" className={style.galeria}>
         <h2>Galeria</h2>
         <div className={style.galeriaGrid}>

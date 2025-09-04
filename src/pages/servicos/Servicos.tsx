@@ -6,8 +6,6 @@ import style from "./style.module.css"
 
 
 export const Servicos = ()=>{
-   // const navigate = useNavigate()
-
     return<>
 
     <Header/>

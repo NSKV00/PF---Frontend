@@ -1,15 +1,14 @@
 .main {
-    height: 100%;
-    padding: 20px;
-    min-height: 100vh;
-    gap:50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
+  height: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  gap:50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
-
 .containerPrincipal {
   width: 80%;       
   max-width: 600px; 
@@ -23,7 +22,6 @@
   gap: 1rem;
   align-items: center;
 }
-
 .entradaPesquisa {
   flex: 3;
   padding: 0.75rem 1rem;
@@ -34,7 +32,6 @@
   transition: all 0.2s ease-in-out;
   color: #000000ff;
 }
-
 .selecaoPesquisa {
   flex: 2;
   padding: 0.75rem 1rem;
@@ -46,13 +43,10 @@
   transition: all 0.2s ease-in-out;
   color: #000000ff;
 }
-
-
 .entradaPesquisa::placeholder {
   color: #9ca3af;
   opacity: 1;
 }
-
 .botaoPesquisa {
   all: unset;  
   flex: 1;
@@ -78,8 +72,6 @@
   background-color: #93c5fd;
   cursor: not-allowed;
 }
-
-
 
 .animacaoFade {
   animation: fadeIn 0.3s ease-in-out;
@@ -112,14 +104,12 @@
   }
 }
 
-
 .containerCartoes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* sempre 3 colunas */
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    justify-items: stretch; /* faz os cards preencherem a coluna */
+    justify-items: stretch;
 }
-
 
 .cartaoCliente {
     aspect-ratio: 1 / 1; 
@@ -139,7 +129,6 @@
 .cartaoCliente:hover {
     transform: translateY(-4px);
 }
-
 
 .informacoesCliente {
     display: flex;

@@ -4,6 +4,7 @@
     max-width: 100%;
     flex-wrap: wrap;
 }
+
 .tudo{
     display: flex;
     width: 100%;
@@ -11,6 +12,7 @@
     padding: 32px;
     
 }
+
 .tudo p {
     width: 50%;
     background: #d9bba0;
@@ -18,6 +20,7 @@
     text-align: center;
     color: #fafafa;
 }
+
 .tudo .pacote{
     width: 49.45%;
     background: #d9bba0;

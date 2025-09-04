@@ -39,7 +39,6 @@
   top: 1.7rem;
 }
 
-/* Campos de input */
 fieldset {
   border: none;
   display: flex;
@@ -73,7 +72,6 @@ input:focus {
   box-shadow: 0 0 0 2px #9b51e0;
 }
 
-/* Botão */
 button {
   margin-top: 10px;
   padding: 12px;
@@ -92,7 +90,6 @@ button:hover {
   transform: translateY(-2px);
 }
 
-/* Links abaixo */
 .login {
   color: #fff;
   font-size: 14px;
@@ -102,7 +99,6 @@ button:hover {
   margin-top: 8px;
   transition: color 0.3s;
 }
-
 .login:hover {
   color: #ffcc70;
 }
@@ -113,7 +109,6 @@ button:hover {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Animação suave */
 @keyframes fadeIn {
   from {
     opacity: 0;

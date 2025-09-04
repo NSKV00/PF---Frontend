@@ -1,11 +1,10 @@
-/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", Arial, sans-serif;
 }
-/* ---------- Hero ---------- */
+
 .hero {
   display: flex;
   justify-content: space-evenly;
@@ -25,7 +24,7 @@
   margin-bottom: 2rem;
   gap: 15rem;
 }
-/* Botões principais */
+
 .btnRed {
   position: relative;
   top: 12rem;
@@ -48,7 +47,7 @@
   font-weight: bold;
   transition: transform 0.3s ease, background 0.3s ease;
 }
-/* ---------- Section Genérica ---------- */
+
 .sobre {
   height: 60vh;
   align-items: center;
@@ -73,7 +72,7 @@
   margin: 0.5rem auto 0;
   border-radius: 2px;
 }
-/* ---------- Sobre ---------- */
+
 .features {
   margin-top: 1rem;
   list-style: none;
@@ -83,7 +82,7 @@
   text-align: center;
   font-weight: 500;
 }
-/* ---------- Depoimentos ---------- */
+
 .depoimentos h2::after {
   content: "";
   width: 80px;
@@ -110,7 +109,6 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* ---------- Galeria ---------- */
 .galeria h2::after {
   content: "";
   width: 80px;
@@ -144,7 +142,6 @@
   filter: brightness(0.9);
 }
 
-/* ---------- Animações ---------- */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

@@ -1,11 +1,11 @@
 .main {
-    background-color: var(--cinza-aço);
-    background-image: url('https://www.transparenttextures.com/patterns/cream-pixels.png');
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-   font-family: 'Poppins', sans-serif;
+  background-color: var(--cinza-aço);
+  background-image: url('https://www.transparenttextures.com/patterns/cream-pixels.png');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 .form {
   background: var(--preto-intenso);
@@ -21,16 +21,16 @@
   animation: fadeIn 0.6s ease-in-out;
 }
 .logo {
-    position: absolute;
-    left: 35%;
-    top: -4rem;
+  position: absolute;
+  left: 35%;
+  top: -4rem;
 }
 .Logo {
   width: 8rem;
   height: auto;
 }
 .title {
-    position: relative;
+  position: relative;
   color: #fff;
   font-size: 28px;
   font-weight: 600;
@@ -38,21 +38,17 @@
   margin-bottom: 10px;
   top: 1.7rem;
 }
-
-/* Campos de input */
 fieldset {
   border: none;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
 label {
   color: #e0e0e0;
   font-size: 14px;
   font-weight: 500;
 }
-
 input {
   padding: 12px 14px;
   border-radius: 10px;
@@ -63,17 +59,13 @@ input {
   font-size: 15px;
   transition: all 0.3s ease;
 }
-
 input::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
-
 input:focus {
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 0 0 2px #9b51e0;
 }
-
-/* Botão */
 button {
   margin-top: 10px;
   padding: 12px;
@@ -86,13 +78,10 @@ button {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
 button:hover {
   opacity: 0.9;
   transform: translateY(-2px);
 }
-
-/* Links abaixo */
 .login {
   color: #fff;
   font-size: 14px;
@@ -102,18 +91,14 @@ button:hover {
   margin-top: 8px;
   transition: color 0.3s;
 }
-
 .login:hover {
   color: #ffcc70;
 }
-
 .span {
   display: block;
   margin-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
-
-/* Animação suave */
 @keyframes fadeIn {
   from {
     opacity: 0;
