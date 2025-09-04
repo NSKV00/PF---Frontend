@@ -22,9 +22,9 @@ export function MainRoutes() {
         <Route path="/clientes" element={<ProtectedRoutes><AdminRoute><Clientes/></AdminRoute></ProtectedRoutes>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/cadastro" element={<Cadastro/>} />
-        <Route path="/agendamentos" element={<Agendamentos/>} />
-        <Route path="/funcionarios" element={<Funcionarios/>} />
-        <Route path="/semana" element={<Semana/>} />
+        <Route path="/agendamentos" element={<ProtectedRoutes><AdminRoute><Agendamentos/></AdminRoute></ProtectedRoutes>} />
+        <Route path="/funcionarios" element={<ProtectedRoutes><AdminRoute><Funcionarios/></AdminRoute></ProtectedRoutes>} />
+        <Route path="/semana" element={<ProtectedRoutes><AdminRoute><Semana/></AdminRoute></ProtectedRoutes>} />
         <Route path="/403" element={<AcessoNegado />} />
     </Routes>
 }

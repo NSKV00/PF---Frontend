@@ -12,8 +12,6 @@ import pacoteReal from "../../assets/pacoteReal.jpg"
 import pacotePlus from "../../assets/pacotePlus.jpg"
 
 export const Servicos = ()=>{
-   // const navigate = useNavigate()
-
     return<>
 
     <Header/>

@@ -1,14 +1,14 @@
 .main {
-    height: 100%;
-    padding: 20px;
-    min-height: 100vh;
-    gap:50px
+  height: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  gap: 50px;
 }
 
 .containerPrincipal {
-      width: 80%;       
-    max-width: 600px; 
-  margin: 0rem auto;
+  width: 80%;       
+  max-width: 600px; 
+  margin: 0 auto;
   padding: 2rem;
   background-color: #f9fafb;
   border-radius: 1rem;
@@ -19,29 +19,17 @@
   align-items: center;
 }
 
-.entradaPesquisa {
-  flex: 3;
-  padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.75rem;
-  background-color: #f3f4f6;
-  font-size: 1rem;
-  transition: all 0.2s ease-in-out;
-  color: #000000ff;
-}
-
+.entradaPesquisa,
 .selecaoPesquisa {
-  flex: 2;
+  flex: 1;
   padding: 0.75rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 0.75rem;
   background-color: #f3f4f6;
   font-size: 1rem;
-  cursor: pointer;
   transition: all 0.2s ease-in-out;
   color: #000000ff;
 }
-
 
 .entradaPesquisa::placeholder {
   color: #9ca3af;
@@ -60,7 +48,6 @@
   font-weight: 500;
   padding: 0.75rem 1rem;
   border-radius: 0.75rem;
-  border: none;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
@@ -73,8 +60,6 @@
   background-color: #93c5fd;
   cursor: not-allowed;
 }
-
-
 
 .animacaoFade {
   animation: fadeIn 0.3s ease-in-out;
@@ -107,85 +92,79 @@
   }
 }
 
-
 .containerCartoes {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    justify-items: center;         
-    padding: 20px;
-    gap:10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+  justify-items: center;         
+  padding: 20px;
+  gap: 10px;
 }
 
-
 .cartaoCliente {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    width: 100%;       
-    max-width: none; 
-    gap: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;       
+  gap: 16px;
 }
 
 .informacoesCliente {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
-    flex: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1; 
 }
 
 .nomeCliente {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0;
-    color: #111827;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #111827;
 }
 
 .contatoCliente {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    font-size: 0.95rem;
-    color: #374151;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  color: #374151;
 }
 
 .contatoCliente p {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .acaoCliente {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .botaoExcluir {
-    all: unset;
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    transition: background 0.3s ease;
+  all: unset;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.3s ease;
 }
 
 .botaoExcluir:hover {
-    background-color: #fecaca;
+  background-color: #fecaca;
 }
 
 .botaoNavegacao {
@@ -285,15 +264,6 @@
   transform: translateY(-1px);
 }
 
-@media (max-width: 360px) {
-  .modalContent2 {
-    min-width: 90%;
-    padding: 20px;
-    border-radius: 8px;
-  }
-}
-
-
 @media (max-width: 660px) {
   .containerPrincipal {
     flex-direction: column;
@@ -331,7 +301,89 @@
   }
 
   .botaoNavegacao {
-    width: 100%;
+    width: 80%;
     text-align: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .containerPrincipal {
+    width: 95%;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .entradaPesquisa,
+  .selecaoPesquisa,
+  .botaoPesquisa {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .cartaoCliente {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .nomeCliente {
+    font-size: 1rem;
+  }
+
+  .contatoCliente {
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+
+  .modalContent2 {
+    min-width: 90%;
+    padding: 20px;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 318px) {
+  .main {
+    padding: 10px;
+    gap: 20px;
+  }
+
+  .containerPrincipal {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .entradaPesquisa,
+  .selecaoPesquisa,
+  .botaoPesquisa {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .cartaoCliente {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .nomeCliente {
+    font-size: 0.9rem;
+  }
+
+  .contatoCliente {
+    font-size: 0.75rem;
+  }
+
+  .botaoNavegacao {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .modalContent2 {
+    padding: 15px;
+    font-size: 0.85rem;
+  }
+
+  .modalContent2 button {
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
 }

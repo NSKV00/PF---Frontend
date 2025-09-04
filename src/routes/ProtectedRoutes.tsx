@@ -34,7 +34,7 @@ export const AdminRoute = ({ children }: AdminRouteProps) => {
   }
 
   if (!user?.admin) {
-    return <Navigate to="/403" replace /> // página de acesso negado
+    return <Navigate to="/403" replace />
   }
 
   return <>{children}</>
