@@ -8,10 +8,11 @@
 
 .divFun {
     display: flex;
-    flex-direction: row;
-    gap: 8%;
+    flex-wrap: wrap;
+    gap: 36px;
     align-items: stretch;
     align-content: center;
+    
 }
 
 .img {
@@ -253,7 +254,7 @@
 @media (max-width: 460px) {
   .modalContent { 
     /* min-height: 100vh; */
-    border-radius: 0;
+    border-radius: 12px;
     padding: 10px;
     padding-bottom: 12px;
   }
