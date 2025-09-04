@@ -138,8 +138,21 @@
   --preto-intenso: #0F0F0F;
   --vermelho-clássico: #B22222;
   --azul-royal-escuro: #0A3D62;
+  --rdp-day_button-width:2px;
   
 }
 
 
+tr > .rdp-day {
+      max-width: 44px;
+    max-height: 44px;
+    width: 100%;
+    height: 100%;
 
+}
+tr .rdp-day_button {
+ max-width: 42px;
+    max-height: 42px;
+    width: 100%;
+    height: 100%;
+}

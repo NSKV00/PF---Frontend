@@ -76,23 +76,9 @@ input:focus {
 }
 
 /* Botão */
-button {
-  margin-top: 10px;
-  padding: 12px;
-  background: linear-gradient(90deg, #6a11cb, #2575fc);
-  border: none;
-  border-radius: 25px;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
 
-button:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
+
+
 
 /* Links abaixo */
 .login {

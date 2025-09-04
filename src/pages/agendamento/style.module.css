@@ -1,5 +1,5 @@
 .main {
-    padding-top: 106.4px;
+   padding: 24px 0;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -96,9 +96,9 @@
 
 .modalOverlay {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left:0;
+
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 1);
@@ -106,22 +106,23 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 24px;
 }
 
 .modalContent {
   background-color: white;
   padding: 20px;
-  width: fit-content;
+
   max-width: 100%;
-  height: auto;
-  max-height: none;
-  overflow: visible;
+  overflow: auto;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 8px;
+  max-height: 100%;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  
 }
 
 .button {
@@ -200,20 +201,7 @@
   background-color: #e0f0ff;
 }
 
-@media (max-width: 360px) {
-  .modalContent {
-    width: 100vw; 
-    height: 100vh; 
-    max-width: 100vw;
-    max-height: 100vh;
-    border-radius: 0;
-    padding: 0;
-  }
 
-  .modalOverlay {
-    padding: 0;      
-  }
-}
 
 
 .modalOverlay2 {
@@ -261,4 +249,17 @@
 .modalContent2 button:last-child {
   background-color: #f44336;
   color: white;
+}
+@media (max-width: 460px) {
+  .modalContent { 
+    /* min-height: 100vh; */
+    border-radius: 0;
+    padding: 10px;
+    padding-bottom: 12px;
+  }
+
+  .modalOverlay {
+    /* padding: 0;       */
+  }
+  
 }
