@@ -1,5 +1,3 @@
-import { useContext, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import { Header } from "../../components/header/Header"
 import { Footer } from "../../components/footer/Footer"
 import style from "./style.module.css"

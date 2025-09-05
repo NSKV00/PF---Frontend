@@ -76,6 +76,7 @@ const pegarAgendamento = async (
     const params: Record<string, any> = {};
     if (opcao && valor) params[opcao] = valor;
     params.limite = 1000; 
+    params.ativo = ativo
     const { data } = await apiController.get("agenda", { params });
 
     const parseDate = (item: any) => {
@@ -154,7 +155,7 @@ const pegarAgendamento = async (
     }
 
     const cancelarAgendamento = async (id:number) => {
-        await apiController.delete(`agenda/${id}`)
+        await apiController.delete(`agenda/${id}`, {params: {isAdmin:true}})
     }
 
 
@@ -246,12 +247,12 @@ const pegarAgendamento = async (
         <button className={style.botaoNavegacao} disabled = {offset === 0} onClick={() => {
           const novoOffset = offset - 12;
           setOffset(novoOffset);
-          pegarAgendamento(undefined, valor, 12, novoOffset,atividade);
+          pegarAgendamento(opcao, valor, 12, novoOffset,atividade);
         }}>Anterior</button>
         <button className={style.botaoNavegacao} disabled={!temProximo} onClick={() => {
           const novoOffset = offset + 12;
           setOffset(novoOffset);
-          pegarAgendamento(undefined, valor, 12, novoOffset,atividade);
+          pegarAgendamento(opcao, valor, 12, novoOffset,atividade);
         }}>proximo</button>
         </div>
 
@@ -268,7 +269,7 @@ const pegarAgendamento = async (
                 const novoOffset = (agenda.length === 1 && offset >= 12) ? offset - 12 : offset;
 
                 setTimeout(async () => {
-                await pegarAgendamento(undefined, valor, 12, novoOffset, atividade)
+                await pegarAgendamento(opcao, valor, 12, novoOffset, atividade)
                 setOffset(novoOffset)
                 setIsModalOpen2(false)
                 }, 3600); 

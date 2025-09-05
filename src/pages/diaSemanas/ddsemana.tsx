@@ -107,11 +107,11 @@ export const Semana = () => {
             <input type="time" className={style.modalInput} placeholder="Horario de fechamento" value={horaFinal} onChange={(e) => setHorarioFinal(e.target.value)} />
             <div className={style.modalButtons}>
                 <button className={style.confirm} onClick={async () => { 
-                    atualizarHorarioAF(idSelecionado,horaInicial,horaFinal)  
+                    await atualizarHorarioAF(idSelecionado,horaInicial,horaFinal)  
                     toast.success("Horario atualizado com sucesso!"); 
-                    setTimeout(() => 
+                    setTimeout(async () => 
                     {setIsModalOpen2(false)  
-                    pegarDdsemana()}, 3600); }}>
+                    await pegarDdsemana()}, 3600); }}>
                         Confirmar
                 </button>
                 <button className={style.cancel} onClick={() => setIsModalOpen2(false)}>Cancelar</button>

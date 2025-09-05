@@ -93,6 +93,8 @@ export const Header:React.FC=()=>{
     useEffect(()=>{
         createIcons({ icons })
         pegarUsuario()
+          console.log("user (useAuth):", user)
+  console.log("cliente (api):", cliente)
     }, [menuUOpen, user])
 
     return <>
