@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import style from "./style.module.css"
 import Logo from "../../assets/Logo.png"
@@ -92,6 +92,11 @@ export const Login = () => {
         )}
 
         <button type="submit">{step === 1 ? "Entrar" : "Verificar Código"}</button>
+      <div>
+          <Link className={style.login} to={"/cadastro"}>
+            Criar conta
+          </Link>
+      </div>
       </form>
     </main>
   )
