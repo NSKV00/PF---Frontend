@@ -128,12 +128,12 @@ export const Clientes = () => {
         <button className={style.botaoNavegacao} disabled = {offset === 0} onClick={() => {
           const novoOffset = offset - 12;
           setOffset(novoOffset);
-          pegarCliente(undefined, valor, 12, novoOffset);
+          pegarCliente(opcao, valor, 12, novoOffset);
         }}>Anterior</button>
         <button className={style.botaoNavegacao} disabled={!temProximo} onClick={() => {
           const novoOffset = offset + 12;
           setOffset(novoOffset);
-          pegarCliente(undefined, valor, 12, novoOffset);
+          pegarCliente(opcao, valor, 12, novoOffset);
         }}>proximo</button>
         </div>
 

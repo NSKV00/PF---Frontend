@@ -97,7 +97,7 @@ const pegarAgendamento = async () => {
     }
 
     const cancelarAgendamento = async (id:number) => {
-        await apiController.delete(`agenda/${id}`)
+        await apiController.delete(`agenda/${id}`, {params: {isAdmin:false}})
     }
 
 

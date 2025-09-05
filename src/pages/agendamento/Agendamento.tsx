@@ -114,12 +114,12 @@ import type { returnUser } from "@/schemas/usuario.schema"
   const gerarHorarios = (horaInicio: string, horaFim: string, diaSelecionado: Date): string[] => {
     const horarios: string[] = [];
 
-    if (!diaSelecionado) return []; // protege contra undefined
+    if (!diaSelecionado) return []; 
 
     const inicio = horaInicio.slice(0, 5); 
     const fim = horaFim.slice(0, 5);   
 
-    if (inicio === "00:00" && fim === "00:00") return []; // dia fechado
+    if (inicio === "00:00" && fim === "00:00") return []; 
 
     const [horaInicial, minutoInicial] = inicio.split(":").map(Number);
     const [horaFinal, minutoFinal] = fim.split(":").map(Number);
@@ -171,7 +171,7 @@ import type { returnUser } from "@/schemas/usuario.schema"
       const pegarAgendamentosDoDia = async (funcionarioId: string, dia: string, mes: string, ano: string) => {
         try {
           const { data } = await apiController.get("agenda", {
-            params: { funcionario: funcionarioId, diaMes: dia, mes, ano } // mes deve ser "agosto", etc.
+            params: { funcionario: funcionarioId, diaMes: dia, mes, ano } 
           });
           return data;
         } catch (error) {

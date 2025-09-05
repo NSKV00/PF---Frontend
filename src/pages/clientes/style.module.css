@@ -94,7 +94,7 @@
 
 .containerCartoes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+  grid-template-columns: repeat(2, 1fr); 
   justify-items: center;         
   padding: 20px;
   gap: 10px;
@@ -385,5 +385,12 @@
   .modalContent2 button {
     padding: 8px 12px;
     font-size: 0.8rem;
+  }
+}
+
+
+@media (max-width: 740px) {
+  .containerCartoes {
+    grid-template-columns: 1fr !important; 
   }
 }

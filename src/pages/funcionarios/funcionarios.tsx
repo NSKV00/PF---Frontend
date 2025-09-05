@@ -174,7 +174,7 @@ export const Funcionarios = () => {
                           state: { opcao: "funcionario", valor: item.nome }
                         });
                       }}
-                    >Meus cortes
+                    >Ver - agenda
                     </button>
                     </div>
                 </div>
