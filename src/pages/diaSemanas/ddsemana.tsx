@@ -42,7 +42,7 @@ export const Semana = () => {
 
     const ddValidados = returnDDSemanaArraySchema.parse(data);
 
-    const ordemDias = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"];
+    const ordemDias = ["segunda-feira", "terca-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sabado", "domingo"];
 
 
     const ddOrdenados = ddValidados.sort(

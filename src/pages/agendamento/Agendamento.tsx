@@ -35,7 +35,7 @@ import type { returnUser } from "@/schemas/usuario.schema"
   };
 
   const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-  const diasSemana = [10,4,5,6,7,8,9];
+  const diasSemana = [7,1,2,3,4,5,6];
 
       const validateUser = async(token:string)=>{
           try {

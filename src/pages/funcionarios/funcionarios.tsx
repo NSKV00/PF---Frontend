@@ -136,7 +136,7 @@ export const Funcionarios = () => {
             <option value="false">Contrato encerrado</option>
             </select>
             <button className={style.botaoPesquisa} onClick={() => setIsModalOpen4(true)}>
-                Criar Funcionario
+                Adicionar
             </button>
 
 
